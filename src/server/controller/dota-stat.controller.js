@@ -2,7 +2,7 @@ var request = require("request");
 var config = require("../config/open-dota.config.json");
 var randomString = require("randomstring");
 var fs = require('fs');
-var host = "https://dota-stat-generator.herokuapp.com/stat-generator";
+var host = "https://dota-stat-generator.herokuapp.com";
 //var host = "http://localhost:3000";
 
 var download = function (uri, filename, callback) {

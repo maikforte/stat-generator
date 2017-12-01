@@ -1,7 +1,7 @@
 var passport = require("passport");
 var SteamID = require('steamid');
 var SteamStrategy = require("passport-steam").Strategy;
-var host = "https://dota-stat-generator.herokuapp.com/stat-generator";
+var host = "https://dota-stat-generator.herokuapp.com";
 //var host = "http://localhost:3000";
 
 passport.serializeUser(function (user, done) {
