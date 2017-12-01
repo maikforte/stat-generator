@@ -1,6 +1,8 @@
 var passport = require("passport");
 var SteamID = require('steamid');
 var SteamStrategy = require("passport-steam").Strategy;
+var host = "https://dota-stat-generator.herokuapp.com/stat-generator";
+//var host = "http://localhost:3000";
 
 passport.serializeUser(function (user, done) {
     done(null, user);
@@ -11,8 +13,8 @@ passport.deserializeUser(function (obj, done) {
 });
 
 passport.use(new SteamStrategy({
-        returnURL: 'http://localhost:3000/api/steam/login/return',
-        realm: 'http://localhost:3000/',
+        returnURL: host + "/api/steam/login/return",
+        realm: host + "/",
         apiKey: '4FBE8503C9D19604FBD9A4A4BEBB2B23'
     },
     function (identifier, profile, done) {
