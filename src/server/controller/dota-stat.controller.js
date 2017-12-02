@@ -2,14 +2,14 @@ var request = require("request");
 var config = require("../config/open-dota.config.json");
 var randomString = require("randomstring");
 var fs = require('fs');
-var host = "https://dota-stat-generator.herokuapp.com";
+//var host = "https://dota-stat-generator.herokuapp.com";
 //var host = "http://localhost:3000";
+var host = "http://www.vertigoo.org";
 
 var download = function (uri, filename, callback) {
     request.head(uri, function (err, res, body) {
         console.log('content-type:', res.headers['content-type']);
         console.log('content-length:', res.headers['content-length']);
-
         request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
     });
 };

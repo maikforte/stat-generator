@@ -4,18 +4,22 @@ angular.module("Dota2StatGenerator")
         var fetchInfo = function (steamId) {
             Dota2StatGeneratorService.getInfo(steamId).then(function (successCallback) {
                 $scope.info = JSON.parse(successCallback.data);
+                $scope.isInfoLoading = false;
                 return Dota2StatGeneratorService.getWLRatio(steamId);
             }).then(function (successCallback) {
                 $scope.wl = JSON.parse(successCallback.data);
+                $scope.isWLLoading = false;
                 return Dota2StatGeneratorService.getStats(steamId);
             }).then(function (successCallback) {
                 $scope.stats = JSON.parse(successCallback.data);
+                $scope.isStatsLoading = false;
                 return Dota2StatGeneratorService.listHeroes();
             }).then(function (successCallback) {
                 $scope.heroList = JSON.parse(successCallback.data);
                 return Dota2StatGeneratorService.getHeroes(steamId);
             }).then(function (successCallback) {
                 $scope.heroes = JSON.parse(successCallback.data);
+                $scope.isHeroLoading = false;
             });
         };
 
@@ -43,6 +47,10 @@ angular.module("Dota2StatGenerator")
             $scope.stats = null;
             var steamId = $location.search().id;
             if (steamId) {
+                $scope.isInfoLoading = true;
+                $scope.isWLLoading = true;
+                $scope.isStatsLoading = true;
+                $scope.isHeroLoading = true;
                 fetchInfo(steamId);
             }
         };
@@ -63,14 +71,6 @@ angular.module("Dota2StatGenerator")
                         console.log(errorCallback);
                     });
                 }
-            });
-        };
-
-        $scope.getLastName = function () {
-            Dota2StatGeneratorService.getLastName().then(function (success) {
-                console.log(success);
-            }, function (error) {
-                console.log(error);
             });
         };
 

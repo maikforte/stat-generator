@@ -3,14 +3,23 @@
         <div id="dota-stats" layout="column" style="width: 500px;">
             <div layout="row">
                 <div flex="45" md-colors="{background:'blue-grey-600'}" layout="column" layout-align="none center" layout-padding>
-                    <img ng-src="{{info.profile.localImage}}">
+                    <div ng-if="isInfoLoading" flex layout="row" layout-sm="column" layout-align="space-around">
+                        <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+                    </div>
+                    <img ng-if="!isInfoLoading" ng-src="{{info.profile.localImage}}">
                 </div>
                 <div flex="55" layout="column" md-colors="{background:'blue-grey-800'}">
                     <div layout="column" layout-align="center center" layout-wrap md-colors="{background:'blue-grey-700'}">
-                        <span class="md-display-2" style="font-weight: 700">{{info.profile.personaname}}</span>
+                        <div ng-if="isInfoLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
+                            <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
+                        </div>
+                        <span ng-if="!isInfoLoading" class="md-display-2" style="font-weight: 700">{{info.profile.personaname}}</span>
                     </div>
                     <div flex layout="column" layout-align="center center">
-                        <div layout="row" layout-align="center none" layout-padding>
+                        <div ng-if="isWLLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
+                            <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
+                        </div>
+                        <div ng-if="!isWLLoading" layout="row" layout-align="center none" layout-padding>
                             <div>
                                 <span style="font-weight: 400;">
                             SOLO:
@@ -31,7 +40,7 @@
                         </span>
                             </div>
                         </div>
-                        <div layout="row" layout-align="center none" layout-padding>
+                        <div ng-if="!isWLLoading" layout="row" layout-align="center none" layout-padding>
                             <div>
                                 <span style="font-weight: 400;">
                             WIN:
@@ -61,7 +70,10 @@
                         STATS
                     </span>
                 </div>
-                <div layout="row" layout-align="center" layout-padding layout-wrap>
+                <div ng-if="isStatsLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
+                    <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
+                </div>
+                <div ng-if="!isStatsLoading" layout="row" layout-align="center" layout-padding layout-wrap>
                     <div ng-repeat="stat in stats" ng-if="stat.field == 'kills' || stat.field == 'deaths' || stat.field == 'assists' || stat.field == 'last_hits' || stat.field == 'denies'">
                         <span style="font-weight: 400;">
                             {{stat.field.replace('_', ' ') | uppercase}}:
@@ -76,7 +88,10 @@
                         BEST HEROES
                     </span>
                 </div>
-                <div layout="row" layout-align="center" layout-padding layout-wrap>
+                <div ng-if="isHeroLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
+                    <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
+                </div>
+                <div ng-if="!isHeroLoading" layout="row" layout-align="center" layout-padding layout-wrap>
                     <div ng-repeat="bestHero in heroes | orderBy:'-win' | limitTo: 3">
                         <span style="font-weight: 400;" ng-repeat="hero in heroList track by $index" ng-if="bestHero.hero_id == hero.id">
                             {{hero.localized_name}}:
@@ -89,7 +104,7 @@
             </div>
         </div>
     </div>
-    <div id="canvas" style="width: 500px;"></div>
+    <div ng-hide="true" id="canvas" style="width: 500px;"></div>
     <div layout="column" layout-align="center center">
         <button ng-click="loginSteam()">Login via Steam</button>
         <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-scope="public_profile"></div>
