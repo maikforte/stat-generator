@@ -24,23 +24,12 @@ module.exports.getPlayerInfo = function (req, res) {
         } else {
             var tempBody = JSON.parse(body);
             var dir = "assets/images/" + tempBody.profile.avatarfull.substring(tempBody.profile.avatarfull.lastIndexOf('/') + 1, tempBody.profile.avatarfull.length);
-            var downloadAvatarPromise = new Promise(function (resolve, reject) {
-                download(tempBody.profile.avatarfull, dir, function () {
-                    console.log("avatar downloaded");
-                });
-
-                if (dir) {
-                    resolve(dir);
-                }
-            });
-
-            downloadAvatarPromise.then(function (success) {
+            download(tempBody.profile.avatarfull, dir, function () {
                 body = JSON.parse(body);
                 body.profile.localImage = dir;
                 body = JSON.stringify(body);
                 res.json(body);
-            }, function (reject) {
-
+                console.log("avatar downloaded");
             });
         }
     });
