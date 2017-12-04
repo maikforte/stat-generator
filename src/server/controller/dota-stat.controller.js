@@ -24,13 +24,24 @@ module.exports.getPlayerInfo = function (req, res) {
         } else {
             var tempBody = JSON.parse(body);
             var dir = "assets/images/" + tempBody.profile.avatarfull.substring(tempBody.profile.avatarfull.lastIndexOf('/') + 1, tempBody.profile.avatarfull.length);
-            download(tempBody.profile.avatarfull, dir, function () {
-                console.log("avatar downloaded");
+            var downloadAvatarPromise = new Promise(function (resolve, reject) {
+                download(tempBody.profile.avatarfull, dir, function () {
+                    console.log("avatar downloaded");
+                });
+
+                if (dir) {
+                    resolve(dir);
+                }
             });
-            body = JSON.parse(body);
-            body.profile.localImage = dir;
-            body = JSON.stringify(body);
-            res.json(body);
+
+            downloadAvatarPromise.then(function (success) {
+                body = JSON.parse(body);
+                body.profile.localImage = dir;
+                body = JSON.stringify(body);
+                res.json(body);
+            }, function (reject) {
+
+            });
         }
     });
 };
@@ -104,12 +115,12 @@ module.exports.saveStats = function (req, res) {
     var base64Data = req.body.encoded_image.replace(/^data:image\/png;base64,/, "");
     var filename = "generated-stats/" + randomString.generate(90) + ".png"
     require("fs").writeFile(filename, base64Data, 'base64', function (err) {
-        console.log(err);
+        if (err) {
+            console.log(err);
+        }
     });
-
     var data = {
         "image_uri": host + "/" + filename
     };
-    console.log(data);
     res.json(data);
 };

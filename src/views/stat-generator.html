@@ -107,13 +107,16 @@
     <div ng-hide="true" id="canvas" style="width: 500px;"></div>
     <div layout="column" layout-align="center center">
         <button ng-click="loginSteam()">Login via Steam</button>
-        <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-scope="public_profile"></div>
-        <button ng-click="generateCanvas()">
-            test
+        <div>
+            <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-scope="public_profile"></div>
+        </div>
+        <button id="share" ng-click="generateCanvas()">
+            Share
         </button>
-        <button ng-click="fbShare()">
-            test
-        </button>
+        <!--
+        <button ng-click="fbShare()"> test
+</button>
+-->
     </div>
 
 
