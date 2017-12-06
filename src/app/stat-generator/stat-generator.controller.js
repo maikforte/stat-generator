@@ -108,6 +108,7 @@ angular.module("Dota2StatGenerator")
                             method: 'feed',
                             redirect_uri: "http://www.vertigoo.org/stat-generator/",
                             //                            link: successCallback.data.image_uri,
+                            source: successCallback.data.image_uri,
                             caption: 'An example caption',
                         }, function (response) {});
 
