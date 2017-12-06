@@ -106,80 +106,52 @@
         </div>
 -->
 
-        <div id="dota-stats" layout="column" style="width: 1200px; height: 315;">
+        <div id="dota-stats" layout="column" style="width: 600px;">
             <div layout="row">
-                <div flex="45" md-colors="{background:'blue-grey-600'}" layout="column" layout-align="none center" layout-padding>
-                    <div ng-if="isInfoLoading" flex layout="row" layout-sm="column" layout-align="space-around">
+                <div flex="30" md-colors="{background:'blue-grey-600'}" layout="column" layout-align="none center">
+                    <div ng-if="isInfoLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
                         <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
                     </div>
                     <img ng-if="!isInfoLoading" ng-src="{{info.profile.localImage}}">
                 </div>
-                <div flex="55" layout="column" md-colors="{background:'blue-grey-800'}">
+                <div flex="70" layout="column" md-colors="{background:'blue-grey-800'}">
                     <div layout="column" layout-align="center center" layout-wrap md-colors="{background:'blue-grey-700'}">
                         <div ng-if="isInfoLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
                             <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
                         </div>
                         <span ng-if="!isInfoLoading" class="md-display-2" style="font-weight: 700">{{info.profile.personaname}}</span>
                     </div>
-                    <div flex layout="column" layout-align="center center">
-                        <div ng-if="isWLLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
-                            <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
-                        </div>
-                        <div ng-if="!isWLLoading" layout="row" layout-align="center none" layout-padding>
-                            <div>
-                                <span style="font-weight: 400;">
-                            SOLO:
-                        </span>
-                                <span style="font-weight: 300;">
-                            {{info.solo_competitive_rank ? info.solo_competitive_rank : 0 | number}}
-                        </span>
-                            </div>
 
-                            <span style="width: 30px;"></span>
-
-                            <div>
-                                <span style="font-weight: 400;">
-                            PARTY:
+                    <div md-colors="{background:'blue-grey-900'}" layout="row" layout-align="center" layout-wrap>
+                        <span style="font-weight: 400;">
+                        BEST HEROES
+                    </span>
+                    </div>
+                    <div ng-if="isHeroLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
+                        <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
+                    </div>
+                    <div ng-if="!isHeroLoading" layout="row" layout-align="center" layout-wrap layout-padding>
+                        <div ng-repeat="bestHero in heroes | orderBy:'-win' | limitTo: 3">
+                            <span style="font-weight: 400;" ng-repeat="hero in heroList track by $index" ng-if="bestHero.hero_id == hero.id">
+                            {{hero.localized_name}}:
                         </span>
-                                <span style="font-weight: 300;">
-                            {{info.competitive_rank ? info.competitive_rank : 0 | number}}
+                            <span style="font-weight: 300;">
+                            {{bestHero.win ? bestHero.win : 0 | number}} Wins
                         </span>
-                            </div>
-                        </div>
-                        <div ng-if="!isWLLoading" layout="row" layout-align="center none" layout-padding>
-                            <div>
-                                <span style="font-weight: 400;">
-                            WIN:
-                        </span>
-                                <span style="font-weight: 300;">
-                            {{wl.win ? wl.win : 0 | number}}
-                        </span>
-                            </div>
-
-                            <span style="width: 30px;"></span>
-
-                            <div>
-                                <span style="font-weight: 400;">
-                            LOSE:
-                        </span>
-                                <span style="font-weight: 300;">
-                            {{wl.lose ? wl.lose : 0 | number}}
-                        </span>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div md-colors="{background:'blue-grey-900'}">
-                <div layout="row" layout-align="center" layout-padding layout-wrap>
+            <div md-colors="{background:'blue-grey-800'}">
+                <div md-colors="{background: 'blue-grey-900'}" layout="row" layout-align="center" layout-wrap>
                     <span style="font-weight: 400;">
                         STATS
                     </span>
                 </div>
-                <div ng-if="isStatsLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
+                <div ng-if="isStatsLoading" flex layout="row" layout-sm="column" layout-align="space-around">
                     <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
                 </div>
-                <div ng-if="!isStatsLoading" layout="row" layout-align="center" layout-padding layout-wrap>
+                <div ng-if="!isStatsLoading" layout="row" layout-align="center" layout-wrap layout-padding>
                     <div ng-repeat="stat in stats" ng-if="stat.field == 'kills' || stat.field == 'deaths' || stat.field == 'assists' || stat.field == 'last_hits' || stat.field == 'denies'">
                         <span style="font-weight: 400;">
                             {{stat.field.replace('_', ' ') | uppercase}}:
@@ -189,22 +161,47 @@
                         </span>
                     </div>
                 </div>
-                <div layout="row" layout-align="center" layout-padding layout-wrap>
-                    <span style="font-weight: 400;">
-                        BEST HEROES
-                    </span>
-                </div>
-                <div ng-if="isHeroLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
-                    <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
-                </div>
-                <div ng-if="!isHeroLoading" layout="row" layout-align="center" layout-padding layout-wrap>
-                    <div ng-repeat="bestHero in heroes | orderBy:'-win' | limitTo: 3">
-                        <span style="font-weight: 400;" ng-repeat="hero in heroList track by $index" ng-if="bestHero.hero_id == hero.id">
-                            {{hero.localized_name}}:
-                        </span>
-                        <span style="font-weight: 300;">
-                            {{bestHero.win ? bestHero.win : 0 | number}} Wins
-                        </span>
+
+                <div layout="column">
+                    <div ng-if="isWLLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
+                        <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
+                    </div>
+                    <div ng-if="!isWLLoading" layout="row" layout-align="center" layout-wrap layout-padding>
+                        <div>
+                            <span style="font-weight: 400;">
+                                    SOLO:
+                                </span>
+                            <span style="font-weight: 300;">
+                                    {{info.solo_competitive_rank ? info.solo_competitive_rank : 0 | number}}
+                                </span>
+                        </div>
+
+                        <div>
+                            <span style="font-weight: 400;">
+                                    PARTY:
+                                </span>
+                            <span style="font-weight: 300;">
+                                    {{info.competitive_rank ? info.competitive_rank : 0 | number}}
+                                </span>
+                        </div>
+
+                        <div>
+                            <span style="font-weight: 400;">
+                                    WIN:
+                                </span>
+                            <span style="font-weight: 300;">
+                                    {{wl.win ? wl.win : 0 | number}}
+                                </span>
+                        </div>
+
+                        <div>
+                            <span style="font-weight: 400;">
+                                    LOSE:
+                                </span>
+                            <span style="font-weight: 300;">
+                                    {{wl.lose ? wl.lose : 0 | number}}
+                                </span>
+                        </div>
                     </div>
                 </div>
             </div>
