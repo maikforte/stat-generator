@@ -120,7 +120,8 @@ angular.module("Dota2StatGenerator")
                                     'og:url': "http://www.vertigoo.org/stat-generator/",
                                     'og:title': "DotA 2 Stats Generator",
                                     'og:description': "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss",
-                                    'og:image': successCallback.data.image_uri
+                                    'og:image': successCallback.data.image_uri,
+                                    "og:image:width": "600px"
                                 }
                             })
 
