@@ -31,37 +31,7 @@ angular.module("Dota2StatGenerator")
                 version: 'v2.11'
             });
             FB.AppEvents.logPageView();
-
-            FB.Event.subscribe('auth.statusChange', function (response) {
-                if (response.status == 'connected') {
-                    console.log("Connected");
-                    $scope.isUserLoggedInToFacebook = true;
-                    angular.element(document.getElementById("share")).attr("ng-if", !$scope.isUserLoggedInToFacebook);
-                    console.log(angular.element(document.getElementById("share")).attr("ng-if"));
-                } else if (response.status === 'not_authorized') {
-                    $scope.isUserLoggedInToFacebook = false;
-                    angular.element(document.getElementById("share")).attr("ng-if", $scope.isUserLoggedInToFacebook);
-                } else {
-                    $scope.isUserLoggedInToFacebook = false;
-                    angular.element(document.getElementById("share")).attr("ng-if", $scope.isUserLoggedInToFacebook);
-                }
-            });
         };
-
-
-        //            FB.getLoginStatus(function (response) {
-        //                if (response.status === 'connected') {
-        //                    console.log("Connected");
-        //                    $scope.isUserLoggedInToFacebook = true;
-        //                    //                var uid = response.authResponse.userID;//                var accessToken = response.authResponse.accessToken;
-        //                } else if (response.status === 'not_authorized') {
-        //                    // the user is logged in to Facebook, 
-        //                    // but has not authenticated your app
-        //                    $scope.isUserLoggedInToFacebook = false;
-        //                } else {
-        //                    $scope.isUserLoggedInToFacebook = false;
-        //                }
-        //            }, true);
 
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -94,9 +64,7 @@ angular.module("Dota2StatGenerator")
             html2canvas(document.getElementById("dota-stats"), {
                 onrendered: function (canvas) {
                     document.getElementById("canvas").appendChild(canvas);
-                    console.log(canvas.toDataURL());
                     Dota2StatGeneratorService.saveStats(canvas.toDataURL()).then(function (successCallback) {
-                        console.log(successCallback);
                         //                        $scope.shareURI = successCallback.data.image_uri;
                         //                        FB.ui({
                         //                            method: 'share',
@@ -117,6 +85,7 @@ angular.module("Dota2StatGenerator")
                             action_type: 'og.shares',
                             action_properties: JSON.stringify({
                                 object: {
+                                    'fb:app_id': '1615955601781169',
                                     'og:url': "http://www.vertigoo.org/stat-generator/",
                                     'og:title': "DotA 2 Stats Generator",
                                     'og:description': "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss",
@@ -125,7 +94,6 @@ angular.module("Dota2StatGenerator")
                                     "og:image:height": "350"
                                 }
                             })
-
                         }, function (response) {});
                     }, function (errorCallback) {
                         console.log(errorCallback);
@@ -133,12 +101,4 @@ angular.module("Dota2StatGenerator")
                 }
             });
         };
-
-        $scope.fbShare = function () {
-            FB.ui({
-                method: 'share',
-                display: 'popup',
-                href: $scope.shareURI,
-            }, function (response) {});
-        }
     });
