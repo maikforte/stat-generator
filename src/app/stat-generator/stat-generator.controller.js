@@ -107,9 +107,9 @@ angular.module("Dota2StatGenerator")
                             app_id: '1615955601781169',
                             method: 'feed',
                             redirect_uri: "http://www.vertigoo.org/stat-generator/",
-                            //                            link: successCallback.data.image_uri,
+                            link: successCallback.data.image_uri,
                             source: successCallback.data.image_uri,
-                            caption: 'An example caption',
+                            caption: 'asdkjhasdkjh',
                         }, function (response) {});
 
                     }, function (errorCallback) {
