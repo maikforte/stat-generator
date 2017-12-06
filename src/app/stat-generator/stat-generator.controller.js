@@ -117,7 +117,6 @@ angular.module("Dota2StatGenerator")
                             action_type: 'og.shares',
                             action_properties: JSON.stringify({
                                 object: {
-                                    "fb.app_id": '1615955601781169',
                                     'og:url': "http://www.vertigoo.org/stat-generator/",
                                     'og:title': "DotA 2 Stats Generator",
                                     'og:description': "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss",
