@@ -103,15 +103,28 @@ angular.module("Dota2StatGenerator")
                         //                            display: 'popup',
                         //                            href: successCallback.data.image_uri,
                         //                        }, function (response) {});
-                        FB.ui({
-                            app_id: '1615955601781169',
-                            method: 'feed',
-                            redirect_uri: "http://www.vertigoo.org/stat-generator/",
-                            link: successCallback.data.image_uri,
-                            source: successCallback.data.image_uri,
-                            caption: 'asdkjhasdkjh',
-                        }, function (response) {});
+                        //                        FB.ui({
+                        //                            app_id: '1615955601781169',
+                        //                            method: 'feed',
+                        //                            redirect_uri: "http://www.vertigoo.org/stat-generator/",
+                        //                            link: successCallback.data.image_uri,
+                        //                            source: successCallback.data.image_uri,
+                        //                            caption: 'asdkjhasdkjh',
+                        //                        }, function (response) {});
 
+                        FB.ui({
+                            method: 'share_open_graph',
+                            action_type: 'og.shares',
+                            action_properties: JSON.stringify({
+                                object: {
+                                    'og:url': "http://www.vertigoo.org/stat-generator/",
+                                    'og:title': "DotA 2 Stats Generator",
+                                    'og:description': "Generate Stats",
+                                    'og:image': successCallback.data.image_uri
+                                }
+                            })
+
+                        }, function (response) {});
                     }, function (errorCallback) {
                         console.log(errorCallback);
                     });
