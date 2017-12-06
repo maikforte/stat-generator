@@ -98,11 +98,19 @@ angular.module("Dota2StatGenerator")
                     Dota2StatGeneratorService.saveStats(canvas.toDataURL()).then(function (successCallback) {
                         console.log(successCallback);
                         //                        $scope.shareURI = successCallback.data.image_uri;
+                        //                        FB.ui({
+                        //                            method: 'share',
+                        //                            display: 'popup',
+                        //                            href: successCallback.data.image_uri,
+                        //                        }, function (response) {});
                         FB.ui({
-                            method: 'share',
-                            display: 'popup',
-                            href: successCallback.data.image_uri,
+                            app_id: '1615955601781169',
+                            method: 'feed',
+                            redirect_uri: "http://www.vertigoo.org/stat-generator",
+                            link: successCallback.data.image_uri,
+                            caption: 'An example caption',
                         }, function (response) {});
+
                     }, function (errorCallback) {
                         console.log(errorCallback);
                     });
