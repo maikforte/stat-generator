@@ -68,7 +68,7 @@ angular.module("Dota2StatGenerator")
                         FB.ui({
                             method: 'share_open_graph',
                             action_type: 'og.shares',
-                            display: "iframe",
+                            display: "touch",
                             action_properties: JSON.stringify({
                                 object: {
                                     'fb:app_id': '1615955601781169',
