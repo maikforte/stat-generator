@@ -65,21 +65,6 @@ angular.module("Dota2StatGenerator")
                 onrendered: function (canvas) {
                     document.getElementById("canvas").appendChild(canvas);
                     Dota2StatGeneratorService.saveStats(canvas.toDataURL()).then(function (successCallback) {
-                        //                        $scope.shareURI = successCallback.data.image_uri;
-                        //                        FB.ui({
-                        //                            method: 'share',
-                        //                            display: 'popup',
-                        //                            href: successCallback.data.image_uri,
-                        //                        }, function (response) {});
-                        //                        FB.ui({
-                        //                            app_id: '1615955601781169',
-                        //                            method: 'feed',
-                        //                            redirect_uri: "http://www.vertigoo.org/stat-generator/",
-                        //                            link: successCallback.data.image_uri,
-                        //                            source: successCallback.data.image_uri,
-                        //                            caption: 'asdkjhasdkjh',
-                        //                        }, function (response) {});
-
                         FB.ui({
                             method: 'share_open_graph',
                             action_type: 'og.shares',
