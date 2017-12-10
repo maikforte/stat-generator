@@ -68,6 +68,7 @@ angular.module("Dota2StatGenerator")
                         FB.ui({
                             method: 'share_open_graph',
                             action_type: 'og.shares',
+                            display: 'popup',
                             action_properties: JSON.stringify({
                                 object: {
                                     'fb:app_id': '1615955601781169',
@@ -79,7 +80,9 @@ angular.module("Dota2StatGenerator")
                                     "og:image:height": "350"
                                 }
                             })
-                        }, function (response) {});
+                        }, function (response) {
+                            console.log(response);
+                        });
                     }, function (errorCallback) {
                         console.log(errorCallback);
                     });

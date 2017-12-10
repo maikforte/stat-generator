@@ -31,3 +31,23 @@ gulp.task("inject", function () {
     });
     return target.pipe(inject(sources)).pipe(gulp.dest("./src/views/"));
 });
+
+gulp.task("deploy", function () {
+    var push = function () {
+        shell("git push");
+        console.log("Files pushed");
+    };
+
+    var commit = function (push) {
+        shell("git commit -m 'ALPHA v1.0.0'");
+        console.log("Files commited");
+        push();
+    };
+    var stageFile = function (commit) {
+        shell("git add ./");
+        console.log("File staged");
+        commit(push);
+    };
+
+    return stageFile(commit);
+});
