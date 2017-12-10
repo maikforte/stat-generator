@@ -34,7 +34,7 @@ gulp.task("inject", function () {
 });
 
 gulp.task("deploy", function () {
-    return gulp.src('./').pipe(git.add()).pipe(git.commit('ALPHA v1.0.0')).pipe(git.push('origin', function (err) {
+    return gulp.src('./*').pipe(git.add()).pipe(git.commit('ALPHA v1.0.0')).pipe(git.push('origin', function (err) {
         if (err) throw err;
     }));
 });
