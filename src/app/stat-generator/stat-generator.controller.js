@@ -77,8 +77,7 @@ angular.module("Dota2StatGenerator")
                                     'og:description': "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss",
                                     'og:image': successCallback.data.image_uri,
                                     "og:image:width": "600",
-                                    "og:image:height": "350",
-                                    "og:type": "website"
+                                    "og:image:height": "350"
                                 }
                             })
                         }, function (response) {
