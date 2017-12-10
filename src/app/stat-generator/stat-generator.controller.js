@@ -61,33 +61,33 @@ angular.module("Dota2StatGenerator")
         };
 
         $scope.generateCanvas = function () {
-            $window.open("https://www.google.com.ph");
-            //            html2canvas(document.getElementById("dota-stats"), {
-            //                onrendered: function (canvas) {
-            //                    document.getElementById("canvas").appendChild(canvas);
-            //                    Dota2StatGeneratorService.saveStats(canvas.toDataURL()).then(function (successCallback) {
-            //                        FB.ui({
-            //                            method: 'share_open_graph',
-            //                            action_type: 'og.shares',
-            //                            display: 'popup',
-            //                            action_properties: JSON.stringify({
-            //                                object: {
-            //                                    'fb:app_id': '1615955601781169',
-            //                                    'og:url': "http://www.vertigoo.org/stat-generator/",
-            //                                    'og:title': "DotA 2 Stats Generator",
-            //                                    'og:description': "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss",
-            //                                    'og:image': successCallback.data.image_uri,
-            //                                    "og:image:width": "600",
-            //                                    "og:image:height": "350"
-            //                                }
-            //                            })
-            //                        }, function (response) {
-            //                            console.log(response);
-            //                        });
-            //                    }, function (errorCallback) {
-            //                        console.log(errorCallback);
-            //                    });
-            //                }
-            //            });
+            html2canvas(document.getElementById("dota-stats"), {
+                onrendered: function (canvas) {
+                    document.getElementById("canvas").appendChild(canvas);
+                    Dota2StatGeneratorService.saveStats(canvas.toDataURL()).then(function (successCallback) {
+                        FB.ui({
+                            method: 'share_open_graph',
+                            action_type: 'og.shares',
+                            display: 'popup',
+                            action_properties: JSON.stringify({
+                                object: {
+                                    'fb:app_id': '1615955601781169',
+                                    'og:url': "http://www.vertigoo.org/stat-generator/",
+                                    'og:title': "DotA 2 Stats Generator",
+                                    'og:description': "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss",
+                                    'og:image': successCallback.data.image_uri,
+                                    "og:image:width": "600",
+                                    "og:image:height": "350",
+                                    "og:type": "website"
+                                }
+                            })
+                        }, function (response) {
+                            console.log(response);
+                        });
+                    }, function (errorCallback) {
+                        console.log(errorCallback);
+                    });
+                }
+            });
         };
     });
