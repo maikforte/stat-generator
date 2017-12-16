@@ -94,9 +94,8 @@ angular.module("Dota2StatGenerator")
                 FB.ui({
                     method: 'feed',
                     link: 'http://www.vertigoo.org/stat-generator',
-                    picture: $scope.statImageUri
+                    source: $scope.statImageUri
                 }, function (response) {
-                    $scope.statImageUri = null;
                     console.log(response);
                 });
             }
