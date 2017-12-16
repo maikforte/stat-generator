@@ -95,13 +95,30 @@ angular.module("Dota2StatGenerator")
         $scope.share = function () {
             if ($scope.statImageUri) {
                 console.log($scope.statImageUri);
+                //                FB.ui({
+                //                    api_id: '1615955601781169',
+                //                    method: 'feed',
+                //                    link: 'http://www.vertigoo.org/stat-generator',
+                //                    picture: $scope.statImageUri
+                //                }, function (response) {
+                //                    console.log(response);
+                //                });
+
                 FB.ui({
-                    api_id: '1615955601781169',
-                    method: 'feed',
-                    link: 'http://www.vertigoo.org/stat-generator',
-                    picture: $scope.statImageUri
-                }, function (response) {
-                    console.log(response);
+                    method: 'share_open_graph',
+                    action_type: 'og.shares',
+                    display: 'popup',
+                    action_properties: JSON.stringify({
+                        object: {
+                            'fb:app_id': '1615955601781169',
+                            'og:url': "http://www.vertigoo.org/stat-generator/",
+                            'og:title': "DotA 2 Stats Generator",
+                            'og:description': "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss",
+                            'og:image': $scope.statImageUri,
+                            "og:image:width": "600",
+                            "og:image:height": "350"
+                        }
+                    })
                 });
             }
         }
