@@ -1,6 +1,6 @@
 angular.module("Dota2StatGenerator")
 
-    .controller("Dota2StatGeneratorController", function ($scope, $window, $location, Dota2StatGeneratorService) {
+    .controller("Dota2StatGeneratorController", function ($scope, $window, $location, $timeout, Dota2StatGeneratorService) {
         var fetchInfo = function (steamId) {
             Dota2StatGeneratorService.getInfo(steamId).then(function (successCallback) {
                 $scope.info = JSON.parse(successCallback.data);
