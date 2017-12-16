@@ -85,6 +85,7 @@ angular.module("Dota2StatGenerator")
                         //                                }
                         //                            })
                         //                        });
+                        angular.element(document.getElementById("share")).click();
                     }, function (errorCallback) {
                         console.log(errorCallback);
                     });
@@ -107,7 +108,6 @@ angular.module("Dota2StatGenerator")
                 FB.ui({
                     method: 'share_open_graph',
                     action_type: 'og.shares',
-                    display: 'popup',
                     action_properties: JSON.stringify({
                         object: {
                             'fb:app_id': '1615955601781169',

@@ -112,7 +112,10 @@
             <div ng-if="!showShareButton" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
                 <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
             </div>
-            <button ng-if="showShareButton" ng-click="share()">
+            <button ng-if="showShareButton" ng-click="generateCanvass()">
+                Share
+            </button>
+            <button id="share" ng-if="false" ng-click="share()">
                 Share
             </button>
         </div>
