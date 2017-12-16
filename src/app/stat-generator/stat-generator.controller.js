@@ -99,7 +99,8 @@ angular.module("Dota2StatGenerator")
                     method: 'feed',
                     link: 'http://www.vertigoo.org/stat-generator',
                     source: $scope.statImageUri,
-                    picture: $scope.statImageUri
+                    picture: $scope.statImageUri,
+                    thumbnail: $scope.statImageUri
                 }, function (response) {
                     console.log(response);
                 });
