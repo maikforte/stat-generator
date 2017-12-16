@@ -85,7 +85,7 @@ angular.module("Dota2StatGenerator")
                         //                                }
                         //                            })
                         //                        });
-                        document.getElementById("share").click();
+                        angular.element(document.getElementById("share")).triggerHandler("click");
                     }, function (errorCallback) {
                         console.log(errorCallback);
                     });
