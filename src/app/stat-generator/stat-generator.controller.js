@@ -94,13 +94,12 @@ angular.module("Dota2StatGenerator")
 
         $scope.share = function () {
             if ($scope.statImageUri) {
+                console.log($scope.statImageUri);
                 FB.ui({
                     api_id: '1615955601781169',
                     method: 'feed',
                     link: 'http://www.vertigoo.org/stat-generator',
-                    source: $scope.statImageUri,
-                    picture: $scope.statImageUri,
-                    thumbnail: $scope.statImageUri
+                    picture: $scope.statImageUri
                 }, function (response) {
                     console.log(response);
                 });
