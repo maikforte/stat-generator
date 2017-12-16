@@ -87,7 +87,11 @@ angular.module("Dota2StatGenerator")
                             redirect_uri: "http://www.vertigoo.org/stat-generator/",
                             caption: "DotA 2 Stats Generator",
                             description: "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss",
-                            picture: successCallback.data.image_uri
+                            picture: successCallback.data.image_uri,
+                            properties: {
+                                caption: "DotA 2 Stats Generator",
+                                description: "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss"
+                            }
                         }, function (response) {
                             console.log(response);
                         });
