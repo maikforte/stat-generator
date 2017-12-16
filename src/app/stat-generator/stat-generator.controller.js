@@ -93,6 +93,7 @@ angular.module("Dota2StatGenerator")
         };
 
         $scope.share = function () {
+            console.log($scope.statImageUri);
             if ($scope.statImageUri) {
                 console.log($scope.statImageUri);
                 //                FB.ui({
