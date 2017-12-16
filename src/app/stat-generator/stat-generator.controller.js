@@ -99,7 +99,7 @@ angular.module("Dota2StatGenerator")
 
                         FB.ui({
                             method: 'feed',
-                            link: 'https://developers.facebook.com/docs/',
+                            link: 'http://www.vertigoo.org/stat-generator',
                             caption: 'An example caption'
                         }, function (response) {
                             console.log(response);
