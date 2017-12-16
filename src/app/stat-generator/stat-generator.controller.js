@@ -19,6 +19,7 @@ angular.module("Dota2StatGenerator")
                 return Dota2StatGeneratorService.getHeroes(steamId);
             }).then(function (successCallback) {
                 $scope.heroes = JSON.parse(successCallback.data);
+                $scope.generateCanvas();
                 $scope.isHeroLoading = false;
             });
         };
@@ -46,6 +47,7 @@ angular.module("Dota2StatGenerator")
 
         $scope.init = function () {
             $scope.stats = null;
+            $scope.showShareButton = false;
             var steamId = $location.search().id;
             if (steamId) {
                 $scope.isInfoLoading = true;
@@ -66,6 +68,7 @@ angular.module("Dota2StatGenerator")
                     document.getElementById("canvas").appendChild(canvas);
                     Dota2StatGeneratorService.saveStats(canvas.toDataURL()).then(function (successCallback) {
                         $scope.statImageUri = successCallback.data.image_uri;
+                        $scope.showShareButton = true;
                         //                        FB.ui({
                         //                            method: 'share_open_graph',
                         //                            action_type: 'og.shares',
@@ -89,7 +92,7 @@ angular.module("Dota2StatGenerator")
             });
         };
 
-        $scope.test = function () {
+        $scope.share = function () {
             if ($scope.statImageUri) {
                 FB.ui({
                     method: 'feed',

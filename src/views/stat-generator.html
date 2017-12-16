@@ -108,11 +108,8 @@
         <div>
             <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-scope="public_profile"></div>
         </div>
-        <button id="share" ng-click="generateCanvas()">
-            Share
-        </button>
-        <button ng-click="test()">
-                test
+        <button ng-if="showShareButton" ng-click="share()">
+                Share
         </button>
     </div>
 
