@@ -65,38 +65,6 @@ angular.module("Dota2StatGenerator")
                 onrendered: function (canvas) {
                     document.getElementById("canvas").appendChild(canvas);
                     Dota2StatGeneratorService.saveStats(canvas.toDataURL()).then(function (successCallback) {
-                        //                        FB.ui({
-                        //                            method: 'share_open_graph',
-                        //                            action_type: 'og.shares',
-                        //                            display: 'popup',
-                        //                            action_properties: JSON.stringify({
-                        //                                object: {
-                        //                                    'fb:app_id': '1615955601781169',
-                        //                                    'og:url': "http://www.vertigoo.org/stat-generator/",
-                        //                                    'og:title': "DotA 2 Stats Generator",
-                        //                                    'og:description': "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss",
-                        //                                    'og:image': successCallback.data.image_uri,
-                        //                                    "og:image:width": "600",
-                        //                                    "og:image:height": "350"
-                        //                                }
-                        //                            })
-
-                        //                        FB.ui({
-                        //                            method: 'feed',
-                        //                            display: 'popup',
-                        //                            api_id: '1615955601781169',
-                        //                            redirect_uri: "http://www.vertigoo.org/stat-generator/",
-                        //                            caption: "DotA 2 Stats Generator",
-                        //                            description: "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss",
-                        //                            picture: successCallback.data.image_uri,
-                        //                            properties: {
-                        //                                caption: "DotA 2 Stats Generator",
-                        //                                description: "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss"
-                        //                            }
-                        //                        }, function (response) {
-                        //                            console.log(response);
-                        //                        });
-
 
                     }, function (errorCallback) {
                         console.log(errorCallback);
@@ -107,11 +75,20 @@ angular.module("Dota2StatGenerator")
 
         $scope.test = function () {
             FB.ui({
-                method: 'feed',
-                link: 'http://www.vertigoo.org/stat-generator',
-                caption: 'An example caption'
-            }, function (response) {
-                console.log(response);
+                method: 'share_open_graph',
+                action_type: 'og.shares',
+                display: 'popup',
+                action_properties: JSON.stringify({
+                    object: {
+                        'fb:app_id': '1615955601781169',
+                        'og:url': "http://www.vertigoo.org/stat-generator/",
+                        'og:title': "DotA 2 Stats Generator",
+                        'og:description': "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss",
+                        'og:image': successCallback.data.image_uri,
+                        "og:image:width": "600",
+                        "og:image:height": "350"
+                    }
+                })
             });
         }
     });
