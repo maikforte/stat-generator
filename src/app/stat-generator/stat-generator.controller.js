@@ -80,18 +80,27 @@ angular.module("Dota2StatGenerator")
                         //                                    "og:image:height": "350"
                         //                                }
                         //                            })
+
+                        //                        FB.ui({
+                        //                            method: 'feed',
+                        //                            display: 'popup',
+                        //                            api_id: '1615955601781169',
+                        //                            redirect_uri: "http://www.vertigoo.org/stat-generator/",
+                        //                            caption: "DotA 2 Stats Generator",
+                        //                            description: "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss",
+                        //                            picture: successCallback.data.image_uri,
+                        //                            properties: {
+                        //                                caption: "DotA 2 Stats Generator",
+                        //                                description: "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss"
+                        //                            }
+                        //                        }, function (response) {
+                        //                            console.log(response);
+                        //                        });
+
                         FB.ui({
                             method: 'feed',
-                            display: 'popup',
-                            api_id: '1615955601781169',
-                            redirect_uri: "http://www.vertigoo.org/stat-generator/",
-                            caption: "DotA 2 Stats Generator",
-                            description: "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss",
-                            picture: successCallback.data.image_uri,
-                            properties: {
-                                caption: "DotA 2 Stats Generator",
-                                description: "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss"
-                            }
+                            link: 'https://developers.facebook.com/docs/',
+                            caption: 'An example caption'
                         }, function (response) {
                             console.log(response);
                         });
