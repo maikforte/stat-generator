@@ -97,18 +97,21 @@ angular.module("Dota2StatGenerator")
                         //                            console.log(response);
                         //                        });
 
-                        FB.ui({
-                            method: 'feed',
-                            link: 'http://www.vertigoo.org/stat-generator',
-                            caption: 'An example caption',
-                            picture: successCallback.data.image_uri
-                        }, function (response) {
-                            console.log(response);
-                        });
+
                     }, function (errorCallback) {
                         console.log(errorCallback);
                     });
                 }
             });
         };
+
+        $scope.test = function () {
+            FB.ui({
+                method: 'feed',
+                link: 'http://www.vertigoo.org/stat-generator',
+                caption: 'An example caption'
+            }, function (response) {
+                console.log(response);
+            });
+        }
     });
