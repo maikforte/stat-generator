@@ -100,7 +100,8 @@ angular.module("Dota2StatGenerator")
                         FB.ui({
                             method: 'feed',
                             link: 'http://www.vertigoo.org/stat-generator',
-                            caption: 'An example caption'
+                            caption: 'An example caption',
+                            picture: successCallback.data.image_uri
                         }, function (response) {
                             console.log(response);
                         });
