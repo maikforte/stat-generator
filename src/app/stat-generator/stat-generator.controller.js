@@ -1,6 +1,11 @@
 angular.module("Dota2StatGenerator")
 
     .controller("Dota2StatGeneratorController", function ($scope, $window, $location, $timeout, Dota2StatGeneratorService) {
+
+        var looper = function (topHeroes, heroes) {
+
+        }
+
         var fetchInfo = function (steamId) {
             Dota2StatGeneratorService.getInfo(steamId).then(function (successCallback) {
                 $scope.info = JSON.parse(successCallback.data);
@@ -87,9 +92,6 @@ angular.module("Dota2StatGenerator")
                         //                        });
                         //                        angular.element(document.getElementById("share")).triggerHandler("click");
                         //                        document.getElementById("share").click();
-                        $timeout(function () {
-                            angular.element(document.getElementById("share")).triggerHandler('click');
-                        }, 0);
                         //                        $scope.share();
                     }, function (errorCallback) {
                         console.log(errorCallback);
