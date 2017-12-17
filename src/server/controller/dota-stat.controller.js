@@ -2,6 +2,7 @@ var request = require("request");
 var config = require("../config/open-dota.config.json");
 var randomString = require("randomstring");
 var fs = require('fs');
+var mkdirp = require("mkdirp");
 //var host = "https://dota-stat-generator.herokuapp.com";
 //var host = "http://192.168.1.106:3000";
 var host = "http://www.vertigoo.org";
@@ -100,15 +101,22 @@ module.exports.listHeroes = function (req, res) {
 };
 
 module.exports.saveStats = function (req, res) {
-    var base64Data = req.body.encoded_image.replace(/^data:image\/png;base64,/, "");
-    var filename = "generated-stats/" + randomString.generate(90) + ".png"
-    require("fs").writeFile(filename, base64Data, 'base64', function (err) {
-        if (err) {
-            console.log(err);
+    mkdirp("/generated-stats/", function (error) {
+        if (error) {
+            console.log(error);
+            res.status(200);
+            res.json(error);
         }
+        var base64Data = req.body.encoded_image.replace(/^data:image\/png;base64,/, "");
+        var filename = "generated-stats/" + randomString.generate(90) + ".png"
+        require("fs").writeFile(filename, base64Data, 'base64', function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
+        var data = {
+            "image_uri": host + "/" + filename
+        };
+        res.json(data);
     });
-    var data = {
-        "image_uri": host + "/" + filename
-    };
-    res.json(data);
 };
