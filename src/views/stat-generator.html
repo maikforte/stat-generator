@@ -26,7 +26,7 @@
                         <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
                     </div>
                     <div ng-if="!isHeroLoading" layout="row" layout-align="center" layout-wrap layout-padding>
-                        <div ng-repeat="bestHero in heroes | orderBy:'-win' | limitTo: 3">
+                        <div ng-repeat="bestHero in heroes">
                             <span style="font-weight: 400;">
                             {{bestHero.localized_name}}:
                         </span>
