@@ -3,7 +3,7 @@ var config = require("../config/open-dota.config.json");
 var randomString = require("randomstring");
 var fs = require('fs');
 //var host = "https://dota-stat-generator.herokuapp.com";
-//var host = "http://localhost:3000";
+//var host = "http://192.168.1.106:3000";
 var host = "http://www.vertigoo.org";
 
 var download = function (uri, filename, callback) {
@@ -29,7 +29,6 @@ module.exports.getPlayerInfo = function (req, res) {
                 body.profile.localImage = dir;
                 body = JSON.stringify(body);
                 res.json(body);
-                console.log("avatar downloaded");
             });
         }
     });
