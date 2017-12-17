@@ -1,11 +1,19 @@
 angular.module("Dota2StatGenerator")
 
-    .controller("Dota2StatGeneratorController", function ($scope, $window, $location, $timeout, Dota2StatGeneratorService) {
+    .controller("Dota2StatGeneratorController", function ($scope, $window, $location, $timeout, $filter, Dota2StatGeneratorService) {
 
-        angular.element(document).ready(function () {
-            $scope.generateCanvas();
-        });
-
+        var heroLooper = function (topHeroes, heroes) {
+            var top3 = $filter("limitTo")($filter("orderBy")(topHeroes, "-win"), "3");
+            for (i = 0; i < top3.length; i++) {
+                for (j = 0; j < heroes.length; j++) {
+                    if (top3[i].hero_id == heroes[j].id) {
+                        top3[i]["localized_name"] = heroes[j].localized_name;
+                        break;
+                    }
+                }
+            }
+            return top3;
+        }
 
         var fetchInfo = function (steamId) {
             Dota2StatGeneratorService.getInfo(steamId).then(function (successCallback) {
@@ -24,7 +32,8 @@ angular.module("Dota2StatGenerator")
                 $scope.heroList = JSON.parse(successCallback.data);
                 return Dota2StatGeneratorService.getHeroes(steamId);
             }).then(function (successCallback) {
-                $scope.heroes = JSON.parse(successCallback.data);
+                $scope.heroes = heroLooper(JSON.parse(successCallback.data), $scope.heroList);
+                $scope.generateCanvas();
                 $scope.isHeroLoading = false;
             });
         };

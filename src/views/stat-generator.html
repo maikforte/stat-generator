@@ -27,8 +27,8 @@
                     </div>
                     <div ng-if="!isHeroLoading" layout="row" layout-align="center" layout-wrap layout-padding>
                         <div ng-repeat="bestHero in heroes | orderBy:'-win' | limitTo: 3">
-                            <span style="font-weight: 400;" ng-repeat="hero in heroList track by $index" ng-if="bestHero.hero_id == hero.id">
-                            {{hero.localized_name}}:
+                            <span style="font-weight: 400;">
+                            {{bestHero.localized_name}}:
                         </span>
                             <span style="font-weight: 300;">
                             {{bestHero.win ? bestHero.win : 0 | number}} Wins
