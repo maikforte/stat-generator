@@ -33,8 +33,8 @@ angular.module("Dota2StatGenerator")
                 return Dota2StatGeneratorService.getHeroes(steamId);
             }).then(function (successCallback) {
                 $scope.heroes = heroLooper(JSON.parse(successCallback.data), $scope.heroList);
-                $scope.generateCanvas();
                 $scope.isHeroLoading = false;
+                $scope.generateCanvas();
             });
         };
 
