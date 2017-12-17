@@ -81,7 +81,6 @@ angular.module("Dota2StatGenerator")
                 onrendered: function (canvas) {
                     document.getElementById("canvas").appendChild(canvas);
                     Dota2StatGeneratorService.saveStats(canvas.toDataURL()).then(function (successCallback) {
-                        console.log(successCallback);
                         $scope.statImageUri = successCallback.data.image_uri;
                         $scope.showShareButton = true;
                     }, function (errorCallback) {
