@@ -34,7 +34,7 @@ angular.module("Dota2StatGenerator")
             }).then(function (successCallback) {
                 $scope.heroes = heroLooper(JSON.parse(successCallback.data), $scope.heroList);
                 $scope.isHeroLoading = false;
-                $scope.generateCanvas();
+                $timeout($scope.generateCanvas, 1000);
             });
         };
 
