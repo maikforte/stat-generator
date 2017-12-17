@@ -1,6 +1,6 @@
 angular.module("Dota2StatGenerator")
 
-    .controller("Dota2StatGeneratorController", function ($scope, $window, $location, $timeout, $filter, Dota2StatGeneratorService) {
+    .controller("Dota2StatGeneratorController", function ($scope, $window, $location, $timeout, $filter, $mdMedia, Dota2StatGeneratorService) {
 
         var heroLooper = function (topHeroes, heroes) {
             var top3 = $filter("limitTo")($filter("orderBy")(topHeroes, "-win"), "3");
@@ -62,6 +62,7 @@ angular.module("Dota2StatGenerator")
         $scope.init = function () {
             $scope.stats = null;
             $scope.showShareButton = false;
+            $scope.gtSM = $mdMedia("gt-sm");
             var steamId = $location.search().id;
             if (steamId) {
                 $scope.isInfoLoading = true;
@@ -77,6 +78,28 @@ angular.module("Dota2StatGenerator")
         };
 
         $scope.generateCanvas = function () {
+            //            html2canvas(document.getElementById("dota-stats"), {
+            //                onrendered: function (canvas) {
+            //                    document.getElementById("canvas").appendChild(canvas);
+            //                    Dota2StatGeneratorService.saveStats(canvas.toDataURL()).then(function (successCallback) {
+            //                        $scope.statImageUri = successCallback.data.image_uri;
+            //                        $scope.showShareButton = true;
+            //                    }, function (errorCallback) {
+            //                        console.log(errorCallback);
+            //                    });
+            //                }
+            //            });
+
+            //            html2canvas(document.getElementById("dota-stats")).then(function (canvas) {
+            //                document.getElementById("canvas").appendChild(canvas);
+            //                Dota2StatGeneratorService.saveStats(canvas.toDataURL()).then(function (successCallback) {
+            //                    $scope.statImageUri = successCallback.data.image_uri;
+            //                    $scope.showShareButton = true;
+            //                }, function (errorCallback) {
+            //                    console.log(errorCallback);
+            //                });
+            //            });
+
             html2canvas(document.getElementById("dota-stats"), {
                 onrendered: function (canvas) {
                     document.getElementById("canvas").appendChild(canvas);

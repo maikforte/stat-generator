@@ -1,5 +1,5 @@
 <div flex ng-init="init()" layout="column" layout-padding>
-    <div layout="column" layout-align="center center">
+    <div layout="column" layout-align="center center" style="overflow: visible;">
 
         <!--
         <div id="dota-stats" layout="column" style="min-width: 600px; max-width: 600px;" md-whiteframe="3">
@@ -105,15 +105,9 @@
 <div ng-hide="true" id="canvas" style="width: 600px;"></div>
 -->
 
-        <div id="dota-stats" layout="column" style="width: 600px; max-width: 600px; max-height: 350px;" md-whiteframe="3" ng-hide="showShareButton">
+        <div id="dota-stats" layout="column" md-whiteframe="3" ng-hide="showShareButton">
             <div layout="row">
-                <div flex="30" md-colors="{background:'blue-grey-600'}" layout="column" layout-align="none center">
-                    <div ng-if="isInfoLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
-                        <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
-                    </div>
-                    <img ng-if="!isInfoLoading" ng-src="{{info.profile.localImage}}">
-                </div>
-                <div flex="70" layout="column" md-colors="{background:'blue-grey-800'}">
+                <div flex layout="column" md-colors="{background:'blue-grey-800'}">
                     <div layout="column" layout-align="center center" layout-wrap md-colors="{background:'blue-grey-700'}">
                         <div ng-if="isInfoLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
                             <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
@@ -206,10 +200,10 @@
             </div>
         </div>
         <div>
-            <img ng-src="{{statImageUri}}" style="width: 100%;">
+            <img ng-src="{{statImageUri}}" width="100%">
         </div>
     </div>
-    <div ng-hide="true" id="canvas" style="width: 600px; max-width: 600px; max-height: 350px;"></div>
+    <div ng-hide="true" id="canvas"></div>
     <div layout="column" layout-align="center center">
         <button ng-click="loginSteam()">Login via Steam</button>
         <div>
