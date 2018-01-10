@@ -168,7 +168,8 @@ module.exports.saveStats = function (req, res) {
 
 module.exports.generateImage = function (req, res) {
     var data = null;
-    var filename = randomString.generate(90) + ".png";
+    var filename = randomString.generate(90) + ".png"
+    //    var filename = "test.png";
     fetchStats(req.body.account_id).then(function (successCallback) {
         data = successCallback;
         data.played_heroes = heroNamer(data.played_heroes, data.hero_list);
@@ -206,34 +207,33 @@ module.exports.generateImage = function (req, res) {
         }
         var robotoFont = PImage.registerFont('assets/fonts/roboto-v18-latin-300.ttf', 'Roboto');
         robotoFont.load(function () {
-            var statsImage = PImage.make(600, 350);
+            var statsImage = PImage.make(600, 315);
             var context = statsImage.getContext('2d');
             context.fillStyle = '#37474F';
             context.fillRect(0, 0, 600, 350);
             context.fillStyle = "#263238";
-            context.fillRect(0, 0, 184, 184);
+            context.fillRect(0, 0, 139, 139);
             context.fillStyle = "#607D8B";
-            context.fillRect(184, 0, 416, 34);
+            context.fillRect(139, 0, 461, 34);
+            //            context.fillStyle = "#263238";
+            //            context.fillRect(139, 34, 461, 20);
             context.fillStyle = "#263238";
-            context.fillRect(184, 34, 416, 20);
-            context.fillStyle = "#263238";
-            context.fillRect(0, 184, 600, 20);
+            context.fillRect(0, 139, 600, 20);
             context.fillStyle = '#ffffff';
             context.font = "21pt 'Roboto'";
-            context.fillText("PROFILE", 350, 51);
-            context.fillText("STATS", 280, 201);
+            context.fillText("STATS", 280, 156);
             //            context.fillText(data.played_heroes[0].localized_name, 220, 90);
             //            context.fillText(data.played_heroes[1].localized_name, 220, 120);
             //            context.fillText(data.played_heroes[2].localized_name, 220, 150);
             //            context.fillText(" - " + data.played_heroes[0].win + " WINS", 400, 90);
             //            context.fillText(" - " + data.played_heroes[1].win + " WINS", 400, 120);
             //            context.fillText(" - " + data.played_heroes[2].win + " WINS", 400, 150);
-            context.fillText("WINS: " + data.wl_ratio.win, 350, 93);
-            context.fillText("LOSE: " + data.wl_ratio.lose, 350, 123);
-            context.fillText("MMR: " + data.player_info.mmr_estimate.estimate, 350, 153);
+            context.fillText("WINS: " + data.wl_ratio.win, 350, 65);
+            context.fillText("LOSE: " + data.wl_ratio.lose, 350, 95);
+            context.fillText("MMR: " + data.player_info.mmr_estimate.estimate, 350, 125);
             var leftPane = 12;
             var rightPane = 325;
-            var row1 = 222;
+            var row1 = 180;
             var row2 = row1 + 25;
             var row3 = row2 + 25;
             var row4 = row3 + 25;
@@ -256,15 +256,16 @@ module.exports.generateImage = function (req, res) {
             PImage.decodeJPEGFromStream(fs.createReadStream("assets/images/" + data.player_info.localImage)).then(function (img) {
                 context.drawImage(img,
                     0, 0, img.width, img.height,
-                    0, 0, img.width, img.height
+                    0, 0, 139, 139
                 );
                 PImage.decodePNGFromStream(fs.createReadStream("assets/images/" + rank)).then(function (img) {
                     context.drawImage(img,
                         0, 0, img.width, img.height,
-                        184, 54, 130, 130
+                        139, 34, 105, 105
                     );
                     PImage.encodePNGToStream(statsImage, fs.createWriteStream('generated-stats/' + filename)).then(() => {
                         res.json(host + "/generated-stats/" + filename);
+                        console.log("ENDED");
                     }).catch((e) => {
                         console.log(e, "there was an error writing");
                     });
