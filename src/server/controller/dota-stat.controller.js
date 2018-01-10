@@ -1,7 +1,11 @@
 var request = require("request");
 var config = require("../config/open-dota.config.json");
 var randomString = require("randomstring");
+var beautify = require("json-beautify");
+var numberFormatter = require("number-formatter");
+var dotaStatModel = require("../model/dota-stat.js");
 var fs = require('fs');
+var PImage = require('pureimage');
 //var host = "https://dota-stat-generator.herokuapp.com";
 //var host = "http://localhost:3000";
 var host = "http://www.vertigoo.org";
@@ -13,6 +17,55 @@ var download = function (uri, filename, callback) {
         request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
     });
 };
+
+var heroNamer = function (playedHeroes, heroList) {
+    for (i = 0; i < playedHeroes.length; i++) {
+        for (j = 0; j < heroList.length; j++) {
+            if (playedHeroes[i].hero_id == heroList[j].id) {
+                playedHeroes[i]["localized_name"] = heroList[j].localized_name;
+                break;
+            }
+        }
+    }
+    return playedHeroes;
+}
+
+var fetchStats = function (account_id) {
+    var data = {
+        player_info: null,
+        wl_ratio: null,
+        player_stats: null,
+        played_heroes: null,
+        hero_list: null,
+        peer_list: null
+    };
+
+    return new Promise(function (resolve, reject) {
+        dotaStatModel.getPlayerInfo(account_id).then(function (successCallback) {
+            data.player_info = JSON.parse(successCallback);
+            var imageFilename = data.player_info.profile.avatarfull.substring(data.player_info.profile.avatarfull.lastIndexOf('/') + 1, data.player_info.profile.avatarfull.length);
+            data.player_info.localImage = imageFilename;
+            var dir = "assets/images/" + imageFilename;
+            download(data.player_info.profile.avatarfull, dir, function () {});
+            return dotaStatModel.getWL(account_id);
+        }).then(function (successCallback) {
+            data.wl_ratio = JSON.parse(successCallback);
+            return dotaStatModel.getTotals(account_id);
+        }).then(function (successCallback) {
+            data.player_stats = JSON.parse(successCallback);
+            return dotaStatModel.listPlayedHeroes(account_id);
+        }).then(function (successCallback) {
+            data.played_heroes = JSON.parse(successCallback).slice(0, 3);
+            return dotaStatModel.listHeroes();
+        }).then(function (successCallback) {
+            data.hero_list = JSON.parse(successCallback);
+            return dotaStatModel.listPeers(account_id);
+        }).then(function (successCallback) {
+            data.peer_list = JSON.parse(successCallback);
+            resolve(data);
+        });
+    });
+}
 
 module.exports.getPlayerInfo = function (req, res) {
     request({
@@ -111,4 +164,112 @@ module.exports.saveStats = function (req, res) {
         "image_uri": host + "/" + filename
     };
     res.json(data);
+};
+
+module.exports.generateImage = function (req, res) {
+    var data = null;
+    var filename = randomString.generate(90) + ".png";
+    fetchStats(req.body.account_id).then(function (successCallback) {
+        data = successCallback;
+        data.played_heroes = heroNamer(data.played_heroes, data.hero_list);
+        //        console.log(beautify(data, null, 2, 100));
+        var rank = "uncalibrated.png";
+        if (data.player_info.rank_tier) {
+            switch (data.player_info.rank_tier.toString().substring(0, 1)) {
+                case "1":
+                    rank = "herald";
+                    break;
+                case "2":
+                    rank = "guardian";
+                    break;
+                case "3":
+                    rank = "crusader";
+                    break;
+                case "4":
+                    rank = "archon";
+                    break;
+                case "5":
+                    rank = "legend";
+                    break;
+                case "6":
+                    rank = "ancient";
+                    break;
+                case "7":
+                    rank = "divine";
+                    break;
+                default:
+                    rank = "uncalibrated"
+                    break;
+            }
+
+            rank = rank + "_" + data.player_info.rank_tier.toString().substring(2, 1) + ".png";
+        }
+        var robotoFont = PImage.registerFont('assets/fonts/roboto-v18-latin-300.ttf', 'Roboto');
+        robotoFont.load(function () {
+            var statsImage = PImage.make(600, 350);
+            var context = statsImage.getContext('2d');
+            context.fillStyle = '#37474F';
+            context.fillRect(0, 0, 600, 350);
+            context.fillStyle = "#263238";
+            context.fillRect(0, 0, 184, 184);
+            context.fillStyle = "#607D8B";
+            context.fillRect(184, 0, 416, 34);
+            context.fillStyle = "#263238";
+            context.fillRect(184, 34, 416, 20);
+            context.fillStyle = "#263238";
+            context.fillRect(0, 184, 600, 20);
+            context.fillStyle = '#ffffff';
+            context.font = "21pt 'Roboto'";
+            context.fillText("PROFILE", 350, 51);
+            context.fillText("STATS", 280, 201);
+            //            context.fillText(data.played_heroes[0].localized_name, 220, 90);
+            //            context.fillText(data.played_heroes[1].localized_name, 220, 120);
+            //            context.fillText(data.played_heroes[2].localized_name, 220, 150);
+            //            context.fillText(" - " + data.played_heroes[0].win + " WINS", 400, 90);
+            //            context.fillText(" - " + data.played_heroes[1].win + " WINS", 400, 120);
+            //            context.fillText(" - " + data.played_heroes[2].win + " WINS", 400, 150);
+            context.fillText("WINS: " + data.wl_ratio.win, 350, 93);
+            context.fillText("LOSE: " + data.wl_ratio.lose, 350, 123);
+            context.fillText("MMR: " + data.player_info.mmr_estimate.estimate, 350, 153);
+            var leftPane = 12;
+            var rightPane = 325;
+            var row1 = 222;
+            var row2 = row1 + 25;
+            var row3 = row2 + 25;
+            var row4 = row3 + 25;
+            var row5 = row4 + 25;
+            var row6 = row5 + 25;
+            context.fillText("TOTAL KILLS: " + numberFormatter("#,###.", data.player_stats[0].sum), leftPane, row1);
+            context.fillText("TOTAL ASSISTS: " + numberFormatter("#,###.", data.player_stats[2].sum), rightPane, row1);
+            context.fillText("AVE. KILLS: " + numberFormatter("#,###.", data.player_stats[0].sum / data.player_stats[0].n), leftPane, row2);
+            context.fillText("AVE. ASSISTS: " + numberFormatter("#,###.", data.player_stats[2].sum / data.player_stats[2].n), rightPane, row2);
+            context.fillText("TOTAL DEATHS: " + numberFormatter("#,###.", data.player_stats[1].sum), leftPane, row3);
+            context.fillText("AVE GPM: " + numberFormatter("#,###.", data.player_stats[5].sum / data.player_stats[5].n), rightPane, row3);
+            context.fillText("AVE. DEATHS: " + numberFormatter("#,###.", data.player_stats[1].sum / data.player_stats[1].n), leftPane, row4);
+            context.fillText("AVE. SENTS. PER GAME: " + numberFormatter("#,###.", data.player_stats[20].sum / data.player_stats[20].n), leftPane, row5);
+            context.fillText("AVE. XPM: " + numberFormatter("#,###.", data.player_stats[6].sum / data.player_stats[6].n), rightPane, row4);
+            context.fillText("AVE. OBS. PER GAME: " + numberFormatter("#,###.", data.player_stats[19].sum / data.player_stats[19].n), rightPane, row5);
+            context.fillText("TOP HEROES: " + data.played_heroes[0].localized_name + ", " + data.played_heroes[1].localized_name + ", " + data.played_heroes[2].localized_name, leftPane, row6);
+            context.font = "30pt 'Roboto'";
+            var nameAlignment = 392 - ((data.player_info.profile.personaname.length / 2) * 12)
+            context.fillText(data.player_info.profile.personaname, nameAlignment, 27);
+            PImage.decodeJPEGFromStream(fs.createReadStream("assets/images/" + data.player_info.localImage)).then(function (img) {
+                context.drawImage(img,
+                    0, 0, img.width, img.height,
+                    0, 0, img.width, img.height
+                );
+                PImage.decodePNGFromStream(fs.createReadStream("assets/images/" + rank)).then(function (img) {
+                    context.drawImage(img,
+                        0, 0, img.width, img.height,
+                        184, 54, 130, 130
+                    );
+                    PImage.encodePNGToStream(statsImage, fs.createWriteStream('generated-stats/' + filename)).then(() => {
+                        res.json(host + "/generated-stats/" + filename);
+                    }).catch((e) => {
+                        console.log(e, "there was an error writing");
+                    });
+                });
+            });
+        });
+    });
 };

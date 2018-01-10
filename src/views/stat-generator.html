@@ -105,119 +105,25 @@
 <div ng-hide="true" id="canvas" style="width: 600px;"></div>
 -->
 
-        <div id="dota-stats" layout="column" md-whiteframe="3" ng-hide="showShareButton">
-            <div layout="row">
-                <div flex layout="column" md-colors="{background:'blue-grey-800'}">
-                    <div layout="column" layout-align="center center" layout-wrap md-colors="{background:'blue-grey-700'}">
-                        <div ng-if="isInfoLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
-                            <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
-                        </div>
-                        <span ng-if="!isInfoLoading" class="md-display-2" style="font-weight: 700">{{info.profile.personaname}}</span>
-                    </div>
-
-                    <div md-colors="{background:'blue-grey-900'}" layout="row" layout-align="center" layout-wrap>
-                        <span style="font-weight: 400;">
-                        BEST HEROES
-                    </span>
-                    </div>
-                    <div ng-if="isHeroLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
-                        <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
-                    </div>
-                    <div ng-if="!isHeroLoading" layout="row" layout-align="center" layout-wrap layout-padding>
-                        <div ng-repeat="bestHero in heroes">
-                            <span style="font-weight: 400;">
-                            {{bestHero.localized_name}}:
-                        </span>
-                            <span style="font-weight: 300;">
-                            {{bestHero.win ? bestHero.win : 0 | number}} Wins
-                        </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div md-colors="{background:'blue-grey-800'}">
-                <div md-colors="{background: 'blue-grey-900'}" layout="row" layout-align="center" layout-wrap>
-                    <span style="font-weight: 400;">
-                        STATS
-                    </span>
-                </div>
-                <div ng-if="isStatsLoading" flex layout="row" layout-sm="column" layout-align="space-around">
-                    <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
-                </div>
-                <div ng-if="!isStatsLoading" layout="row" layout-align="center" layout-wrap layout-padding>
-                    <div ng-repeat="stat in stats" ng-if="stat.field == 'kills' || stat.field == 'deaths' || stat.field == 'assists' || stat.field == 'last_hits' || stat.field == 'denies'">
-                        <span style="font-weight: 400;">
-                            {{stat.field.replace('_', ' ') | uppercase}}:
-                        </span>
-                        <span style="font-weight: 300;">
-                            {{stat.sum ? stat.sum : 0 | number}}
-                        </span>
-                    </div>
-                </div>
-
-                <div layout="column">
-                    <div ng-if="isWLLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
-                        <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
-                    </div>
-                    <div ng-if="!isWLLoading" layout="row" layout-align="center" layout-wrap layout-padding>
-                        <div>
-                            <span style="font-weight: 400;">
-                                    SOLO:
-                                </span>
-                            <span style="font-weight: 300;">
-                                    {{info.solo_competitive_rank ? info.solo_competitive_rank : 0 | number}}
-                                </span>
-                        </div>
-
-                        <div>
-                            <span style="font-weight: 400;">
-                                    PARTY:
-                                </span>
-                            <span style="font-weight: 300;">
-                                    {{info.competitive_rank ? info.competitive_rank : 0 | number}}
-                                </span>
-                        </div>
-
-                        <div>
-                            <span style="font-weight: 400;">
-                                    WIN:
-                                </span>
-                            <span style="font-weight: 300;">
-                                    {{wl.win ? wl.win : 0 | number}}
-                                </span>
-                        </div>
-
-                        <div>
-                            <span style="font-weight: 400;">
-                                    LOSE:
-                                </span>
-                            <span style="font-weight: 300;">
-                                    {{wl.lose ? wl.lose : 0 | number}}
-                                </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <img ng-src="{{statImageUri}}" width="100%">
-        </div>
-    </div>
-    <div ng-hide="true" id="canvas"></div>
-    <div layout="column" layout-align="center center">
-        <button ng-click="loginSteam()">Login via Steam</button>
-        <div>
-            <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-scope="public_profile"></div>
-        </div>
-        <div>
-            <div ng-if="!showShareButton" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
+        <div layout="column" layout-align="center center" layout-padding>
+            <img ng-src="{{generatedStats}}" ng-if="!isLoading">
+            <div ng-if="isLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
                 <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
             </div>
-            <button ng-if="showShareButton" id="share" ng-show="true" ng-click="share()">
-                Share
-            </button>
+            <!--            <img ng-src="http://localhost:3000/generated-stats/test.png">-->
+            <div layout-padding style="border: solid; border-width: thin; border-color: rgba(0, 150, 0, 1); color: rgba(0, 150, 0, 1); background-color: rgba(0,0,0,0); font-weight: 200; border-radius: 5px;cursor: pointer;" ng-click="loginSteam()">
+                Login via Steam
+            </div>
+            <!--            <button ng-click="loginSteam()">Login via Steam</button>-->
+            <div>
+                <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-scope="public_profile"></div>
+            </div>
+            <div>
+                <div ng-click="share()" layout-padding style="background-color: #4468B0; color: white; font-weight: 500; border-radius: 5px; width: 100px" layout-align="center" layout="row">
+                    Share
+                </div>
+            </div>
         </div>
+
+
     </div>
-
-
-</div>

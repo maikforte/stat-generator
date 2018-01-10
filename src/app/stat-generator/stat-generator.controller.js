@@ -61,15 +61,16 @@ angular.module("Dota2StatGenerator")
 
         $scope.init = function () {
             $scope.stats = null;
-            $scope.showShareButton = false;
-            $scope.gtSM = $mdMedia("gt-sm");
+            $scope.showShareButton = true;
+            $scope.generatedStats = "http://localhost:3000/generated-stats/placeholder.png";
             var steamId = $location.search().id;
             if (steamId) {
-                $scope.isInfoLoading = true;
-                $scope.isWLLoading = true;
-                $scope.isStatsLoading = true;
-                $scope.isHeroLoading = true;
-                fetchInfo(steamId);
+                //                $scope.isInfoLoading = true;
+                //                $scope.isWLLoading = true;
+                //                $scope.isStatsLoading = true;
+                //                $scope.isHeroLoading = true;
+                //                fetchInfo(steamId);
+                $scope.generateCanvas(steamId);
             }
         };
 
@@ -77,39 +78,15 @@ angular.module("Dota2StatGenerator")
             $window.location.href = "/api/steam/login";
         };
 
-        $scope.generateCanvas = function () {
-            //            html2canvas(document.getElementById("dota-stats"), {
-            //                onrendered: function (canvas) {
-            //                    document.getElementById("canvas").appendChild(canvas);
-            //                    Dota2StatGeneratorService.saveStats(canvas.toDataURL()).then(function (successCallback) {
-            //                        $scope.statImageUri = successCallback.data.image_uri;
-            //                        $scope.showShareButton = true;
-            //                    }, function (errorCallback) {
-            //                        console.log(errorCallback);
-            //                    });
-            //                }
-            //            });
-
-            //            html2canvas(document.getElementById("dota-stats")).then(function (canvas) {
-            //                document.getElementById("canvas").appendChild(canvas);
-            //                Dota2StatGeneratorService.saveStats(canvas.toDataURL()).then(function (successCallback) {
-            //                    $scope.statImageUri = successCallback.data.image_uri;
-            //                    $scope.showShareButton = true;
-            //                }, function (errorCallback) {
-            //                    console.log(errorCallback);
-            //                });
-            //            });
-
-            html2canvas(document.getElementById("dota-stats"), {
-                onrendered: function (canvas) {
-                    document.getElementById("canvas").appendChild(canvas);
-                    Dota2StatGeneratorService.saveStats(canvas.toDataURL()).then(function (successCallback) {
-                        $scope.statImageUri = successCallback.data.image_uri;
-                        $scope.showShareButton = true;
-                    }, function (errorCallback) {
-                        console.log(errorCallback);
-                    });
-                }
+        $scope.generateCanvas = function (steamId) {
+            $scope.isLoading = true;
+            Dota2StatGeneratorService.getGeneratedStats(steamId).then(function (successCallback) {
+                $scope.generatedStats = successCallback.data;
+                console.log(successCallback);
+                $scope.isLoading = false;
+            }, function (errorCallback) {
+                $scope.isLoading = false;
+                console.log(errorCallback);
             });
         };
 

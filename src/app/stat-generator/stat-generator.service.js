@@ -80,5 +80,15 @@ angular.module("Dota2StatGenerator")
                     }
                 });
             });
-        }
+        };
+
+        this.getGeneratedStats = function (account_id) {
+            return $http({
+                "method": "POST",
+                "url": "/api/stats/generate-image",
+                "data": {
+                    "account_id": account_id
+                }
+            });
+        };
     });

@@ -33,10 +33,11 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "fs": "0.0.1-security",
-    "html2canvas-render-offscreen": "0.0.3",
-    "mkdirp": "^0.5.1",
+    "json-beautify": "^1.0.1",
+    "number-formatter": "^1.2.0",
     "passport": "^0.4.0",
     "passport-steam": "^1.0.8",
+    "pureimage": "^0.1.3",
     "randomstring": "^1.1.5",
     "request": "^2.83.0",
     "steamid": "^1.1.0"
