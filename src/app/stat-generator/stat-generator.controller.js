@@ -62,7 +62,7 @@ angular.module("Dota2StatGenerator")
         $scope.init = function () {
             $scope.stats = null;
             $scope.showShareButton = true;
-            $scope.generatedStats = "http://vertigoo.org/generated-stats/placeholder.png";
+            $scope.generatedStats = "http://www.vertigoo.org/generated-stats/placeholder.png";
             var steamId = $location.search().id;
             if (steamId) {
                 //                $scope.isInfoLoading = true;
