@@ -91,8 +91,8 @@ angular.module("Dota2StatGenerator")
         };
 
         $scope.share = function () {
-            if ($scope.statImageUri) {
-                console.log($scope.statImageUri);
+            if ($scope.generatedStats) {
+                console.log($scope.generatedStats);
                 FB.ui({
                     method: 'share_open_graph',
                     action_type: 'og.shares',
@@ -103,7 +103,7 @@ angular.module("Dota2StatGenerator")
                             'og:url': "http://www.vertigoo.org/stat-generator/",
                             'og:title': "DotA 2 Stats Generator",
                             'og:description': "Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss",
-                            'og:image': $scope.statImageUri,
+                            'og:image': $scope.generatedStats,
                             "og:image:width": "600",
                             "og:image:height": "350"
                         }
