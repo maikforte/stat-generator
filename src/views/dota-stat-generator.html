@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base href="/">
+    <title>DotA 2 Stat Generator</title>
+    <meta name="description=" content="Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss">
+    <meta name="viewport" content="width=device-width,
+                        initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:url" content="www.vertigoo.org">
+    <meta property="og:title" content="DotA 2 Stat Generator">
+    <meta property="og:description" content="Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss">
+    <meta property="fb:app_id" content="1615955601781169">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/assets/css/roboto.css">
+    <link rel="stylesheet" href="/node_modules/angular-material/angular-material.min.css">
+    <style type="text/css">
+        .steam-button {
+            border: solid;
+            border-width: thin;
+            border-color: rgba(0, 150, 0, 1);
+            color: rgba(0, 150, 0, 1);
+            background-color: rgba(0, 0, 0, 0);
+            font-weight: 200;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .share-button {
+            background-color: #4468B0;
+            color: white;
+            font-weight: 500;
+            border-radius: 5px;
+            width: 200px;
+            height: 50px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body ng-app="Dota2StatGenerator" ng-controller="Dota2StatGeneratorController" layout="column">
+    <md-content flex="no-shrink" md-scrollable-x layout="column">
+        <md-toolbar class="md-primary-hue-2">
+            <div class="md-toolbar-tools">
+                <div>
+                    DotA 2 Stats Generator
+                </div>
+            </div>
+        </md-toolbar>
+        <div flex ng-init="init()" layout="column" layout-padding>
+            <div layout="column" layout-align="center center" layout-padding>
+                <img ng-src="{{generatedStats}}" ng-if="!isLoading">
+                <div ng-if="isLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
+                    <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
+                </div>
+                <div class="steam-button" layout-padding layout-margin ng-click="loginSteam()">
+                    Login via Steam
+                </div>
+                <div class="share-button" ng-click="share()" layout-margin layout-padding layout-align="center center" layout="row">
+                    Share to Facebook
+                </div>
+            </div>
+        </div>
+    </md-content>
+</body>
+
+<script src="/node_modules/angular/angular.min.js"></script>
+<script src="/node_modules/angular-animate/angular-animate.min.js"></script>
+<script src="/node_modules/angular-aria/angular-aria.min.js"></script>
+<script src="/node_modules/angular-material/angular-material.min.js"></script>
+<script src="/node_modules/angular-messages/angular-messages.min.js"></script>
+<script src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="/src/app/stat-generator/stat-generator.module.js"></script>
+<script src="/src/app/stat-generator/stat-generator.controller.js"></script>
+<script src="/src/app/stat-generator/stat-generator.service.js"></script>
+<script src="/src/app/stat-generator/stat-generator.theme.js"></script>
+
+</html>

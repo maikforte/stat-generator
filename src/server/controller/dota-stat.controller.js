@@ -1,14 +1,11 @@
-var request = require("request");
-var config = require("../config/open-dota.config.json");
-var randomString = require("randomstring");
-var beautify = require("json-beautify");
-var numberFormatter = require("number-formatter");
-var dotaStatModel = require("../model/dota-stat.js");
-var fs = require('fs');
-var PImage = require('pureimage');
-//var host = "https://dota-stat-generator.herokuapp.com";
-//var host = "http://localhost:3000";
-var host = "http://www.vertigoo.org";
+const request = require("request");
+const config = require("../config/open-dota.config.json");
+const randomString = require("randomstring");
+const beautify = require("json-beautify");
+const numberFormatter = require("number-formatter");
+const fs = require('fs');
+const PImage = require('pureimage');
+const host = require("../config/localhost.config.json").host;
 
 var download = function (uri, filename, callback) {
     request.head(uri, function (err, res, body) {
@@ -31,7 +28,7 @@ var heroNamer = function (playedHeroes, heroList) {
 }
 
 var fetchStats = function (account_id) {
-    var data = {
+    const data = {
         player_info: null,
         wl_ratio: null,
         player_stats: null,
@@ -39,7 +36,7 @@ var fetchStats = function (account_id) {
         hero_list: null,
         peer_list: null
     };
-
+    const dotaStatModel = require("../router/model-router.router.js").dotaStatModel;
     return new Promise(function (resolve, reject) {
         dotaStatModel.getPlayerInfo(account_id).then(function (successCallback) {
             data.player_info = JSON.parse(successCallback);
@@ -65,115 +62,14 @@ var fetchStats = function (account_id) {
             resolve(data);
         });
     });
-}
-
-module.exports.getPlayerInfo = function (req, res) {
-    request({
-        "method": "GET",
-        "url": config.BASE_URL + "/players/" + req.query.account_id
-    }, function (error, requestResponse, body) {
-        if (error) {
-            console.log(error);
-        } else {
-            var tempBody = JSON.parse(body);
-            var dir = "assets/images/" + tempBody.profile.avatarfull.substring(tempBody.profile.avatarfull.lastIndexOf('/') + 1, tempBody.profile.avatarfull.length);
-            download(tempBody.profile.avatarfull, dir, function () {
-                body = JSON.parse(body);
-                body.profile.localImage = dir;
-                body = JSON.stringify(body);
-                res.json(body);
-            });
-        }
-    });
-};
-
-module.exports.getWL = function (req, res) {
-    request({
-        "method": "GET",
-        "url": config.BASE_URL + "/players/" + req.query.account_id + "/wl"
-    }, function (error, requestResponse, body) {
-        if (error) {
-            console.log(error);
-        } else {
-            res.json(body);
-        }
-    });
-};
-
-module.exports.getTotals = function (req, res) {
-    request({
-        "method": "GET",
-        "url": config.BASE_URL + "/players/" + req.query.account_id + "/totals"
-    }, function (error, requestResponse, body) {
-        if (error) {
-            console.log(error);
-        } else {
-            res.json(body);
-        }
-    });
-};
-
-module.exports.getHeroes = function (req, res) {
-    request({
-        "method": "GET",
-        "url": config.BASE_URL + "/players/" + req.query.account_id + "/heroes"
-    }, function (error, requestResponse, body) {
-        if (error) {
-            console.log(error);
-        } else {
-            res.json(body);
-        }
-    });
-};
-
-module.exports.getPeers = function (req, res) {
-    request({
-        "method": "GET",
-        "url": config.BASE_URL + "/players/" + req.query.account_id + "/peers"
-    }, function (error, requestResponse, body) {
-        if (error) {
-            console.log(error);
-        } else {
-            res.json(body);
-        }
-    });
-};
-
-module.exports.listHeroes = function (req, res) {
-    request({
-        "method": "GET",
-        "url": config.BASE_URL + "/heroes/"
-    }, function (error, requestResponse, body) {
-        if (error) {
-            console.log(error);
-        } else {
-            res.json(body);
-        }
-    });
-};
-
-module.exports.saveStats = function (req, res) {
-    var base64Data = req.body.encoded_image.replace(/^data:image\/png;base64,/, "");
-    var filename = "generated-stats/" + randomString.generate(90) + ".png"
-    require("fs").writeFile(filename, base64Data, 'base64', function (err) {
-        if (err) {
-            console.log(err);
-        }
-    });
-    var data = {
-        "image_uri": host + "/" + filename
-    };
-    res.json(data);
 };
 
 module.exports.generateImage = function (req, res) {
     var data = null;
     var filename = randomString.generate(90) + ".png"
-    //    var filename = "test.png";
     fetchStats(req.body.account_id).then(function (successCallback) {
         data = successCallback;
         data.played_heroes = heroNamer(data.played_heroes, data.hero_list);
-        //        console.log(beautify(data, null, 2, 100));
         var rank = "uncalibrated.png";
         if (data.player_info.rank_tier) {
             switch (data.player_info.rank_tier.toString().substring(0, 1)) {
@@ -202,7 +98,6 @@ module.exports.generateImage = function (req, res) {
                     rank = "uncalibrated"
                     break;
             }
-
             rank = rank + "_" + data.player_info.rank_tier.toString().substring(2, 1) + ".png";
         }
         var robotoFont = PImage.registerFont('assets/fonts/roboto-v18-latin-300.ttf', 'Roboto');
@@ -215,19 +110,11 @@ module.exports.generateImage = function (req, res) {
             context.fillRect(0, 0, 139, 139);
             context.fillStyle = "#607D8B";
             context.fillRect(139, 0, 461, 34);
-            //            context.fillStyle = "#263238";
-            //            context.fillRect(139, 34, 461, 20);
             context.fillStyle = "#263238";
             context.fillRect(0, 139, 600, 20);
             context.fillStyle = '#ffffff';
             context.font = "21pt 'Roboto'";
             context.fillText("STATS", 280, 156);
-            //            context.fillText(data.played_heroes[0].localized_name, 220, 90);
-            //            context.fillText(data.played_heroes[1].localized_name, 220, 120);
-            //            context.fillText(data.played_heroes[2].localized_name, 220, 150);
-            //            context.fillText(" - " + data.played_heroes[0].win + " WINS", 400, 90);
-            //            context.fillText(" - " + data.played_heroes[1].win + " WINS", 400, 120);
-            //            context.fillText(" - " + data.played_heroes[2].win + " WINS", 400, 150);
             context.fillText("WINS: " + data.wl_ratio.win, 350, 65);
             context.fillText("LOSE: " + data.wl_ratio.lose, 350, 95);
             context.fillText("MMR: " + data.player_info.mmr_estimate.estimate, 350, 125);
@@ -263,9 +150,8 @@ module.exports.generateImage = function (req, res) {
                         0, 0, img.width, img.height,
                         139, 34, 105, 105
                     );
-                    PImage.encodePNGToStream(statsImage, fs.createWriteStream('generated-stats/' + filename)).then(() => {
+                    PImage.encodePNGToStream(statsImage, fs.createWriteStream('generated-stats/' + filename)).then(function () {
                         res.json(host + "/generated-stats/" + filename);
-                        console.log("ENDED");
                     }).catch((e) => {
                         console.log(e, "there was an error writing");
                     });

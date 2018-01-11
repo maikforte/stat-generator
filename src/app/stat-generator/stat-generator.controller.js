@@ -2,42 +2,6 @@ angular.module("Dota2StatGenerator")
 
     .controller("Dota2StatGeneratorController", function ($scope, $window, $location, $timeout, $filter, $mdMedia, Dota2StatGeneratorService) {
 
-        var heroLooper = function (topHeroes, heroes) {
-            var top3 = $filter("limitTo")($filter("orderBy")(topHeroes, "-win"), "3");
-            for (i = 0; i < top3.length; i++) {
-                for (j = 0; j < heroes.length; j++) {
-                    if (top3[i].hero_id == heroes[j].id) {
-                        top3[i]["localized_name"] = heroes[j].localized_name;
-                        break;
-                    }
-                }
-            }
-            return top3;
-        }
-
-        var fetchInfo = function (steamId) {
-            Dota2StatGeneratorService.getInfo(steamId).then(function (successCallback) {
-                $scope.info = JSON.parse(successCallback.data);
-                $scope.isInfoLoading = false;
-                return Dota2StatGeneratorService.getWLRatio(steamId);
-            }).then(function (successCallback) {
-                $scope.wl = JSON.parse(successCallback.data);
-                $scope.isWLLoading = false;
-                return Dota2StatGeneratorService.getStats(steamId);
-            }).then(function (successCallback) {
-                $scope.stats = JSON.parse(successCallback.data);
-                $scope.isStatsLoading = false;
-                return Dota2StatGeneratorService.listHeroes();
-            }).then(function (successCallback) {
-                $scope.heroList = JSON.parse(successCallback.data);
-                return Dota2StatGeneratorService.getHeroes(steamId);
-            }).then(function (successCallback) {
-                $scope.heroes = heroLooper(JSON.parse(successCallback.data), $scope.heroList);
-                $scope.isHeroLoading = false;
-                $timeout($scope.generateCanvas, 1000);
-            });
-        };
-
         $window.fbAsyncInit = function () {
             FB.init({
                 appId: '1615955601781169',
@@ -60,16 +24,11 @@ angular.module("Dota2StatGenerator")
         }(document, 'script', 'facebook-jssdk'));
 
         $scope.init = function () {
-            $scope.stats = null;
             $scope.showShareButton = true;
             $scope.generatedStats = "http://www.vertigoo.org/generated-stats/placeholder.png";
             var steamId = $location.search().id;
             if (steamId) {
-                //                $scope.isInfoLoading = true;
-                //                $scope.isWLLoading = true;
-                //                $scope.isStatsLoading = true;
-                //                $scope.isHeroLoading = true;
-                //                fetchInfo(steamId);
+                console.log(steamId);
                 $scope.generateCanvas(steamId);
             }
         };

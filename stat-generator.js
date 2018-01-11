@@ -1,27 +1,21 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var app = express();
-var port = process.env.PORT || 3000;
-var router = require("./src/server/router/express-router.js");
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
+const port = process.env.PORT || 3000;
+const middlewareRouter = require("./src/server/router/middleware-router.router.js");
+const controllerRouter = require("./src/server/router/controller-router.router.js");
 
 app.use(express.static(__dirname));
-app.use(router.auth.passport.initialize());
+app.use(middlewareRouter.steamAuth.passport.initialize());
 app.use(bodyParser.json());
 
-app.get("/api/player/get-info", router.dotaStatController.getPlayerInfo);
-app.get("/api/player/get-win-lose-ratio", router.dotaStatController.getWL);
-app.get("/api/player/get-stats", router.dotaStatController.getTotals);
-app.get("/api/player/get-heroes", router.dotaStatController.getHeroes);
-app.get("/api/player/get-peers", router.dotaStatController.getPeers);
-app.get("/api/hero/list-heroes", router.dotaStatController.listHeroes);
-app.post("/api/stats/generate-image", router.dotaStatController.generateImage);
-app.post("/api/stats/save-stats", router.dotaStatController.saveStats);
-app.get("/api/steam/login", router.auth.authenticate("steam"), router.steamLoginController.steamLogin);
-app.get("/api/steam/login/return", router.auth.authenticate("steam"), router.steamLoginController.steamLoginRedirect);
+app.post("/api/stats/generate-image", controllerRouter.dotaStatController.generateImage);
+app.get("/api/steam/login", middlewareRouter.steamAuth.authenticate("steam"), controllerRouter.steamLoginController.steamLogin);
+app.get("/api/steam/login/return", middlewareRouter.steamAuth.authenticate("steam"), controllerRouter.steamLoginController.steamLoginRedirect);
 
-app.get("*", function (request, response) {
+app.get("/*", function (request, response) {
     response.status(200);
-    response.sendFile(__dirname + "/src/views/index.html");
+    response.sendFile(__dirname + "/src/views/dota-stat-generator.html");
 });
 
 app.listen(port, function () {
