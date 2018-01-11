@@ -9,35 +9,20 @@ app.use(express.static(__dirname));
 app.use(middlewareRouter.steamAuth.passport.initialize());
 app.use(bodyParser.json());
 
+app.listen(port, function () {
+    console.log("Listening on port " + port + "...");
+});
+
+// POST Requests
 app.post("/api/stats/generate-image", controllerRouter.dotaStatController.generateImage);
+
+// GET Requests
 app.get("/api/steam/login", middlewareRouter.steamAuth.authenticate("steam"), controllerRouter.steamLoginController.steamLogin);
+
 app.get("/api/steam/login/return", middlewareRouter.steamAuth.authenticate("steam"), controllerRouter.steamLoginController.steamLoginRedirect);
 
+// Web Pages
 app.get("/*", function (request, response) {
     response.status(200);
     response.sendFile(__dirname + "/src/views/dota-stat-generator.html");
-});
-
-app.listen(port, function () {
-    console.log("Listening on port " + port + "...");
-
-//    var request = require("request");
-//    request({
-//        "method": "POST",
-//        "url": "http://localhost:3000/api/stats/generate-image",
-//        "json": true,
-//        "body": {
-//            //            "account_id": 194403824
-//            //            "account_id": 297626808
-//            //            "account_id": 109192448
-//            "account_id": 110021241
-//            //            "account_id": 128219138
-//        },
-//        function (error, response, body) {
-//            if (error) {
-//                console.log(error);
-//            }
-//            console.log(body);
-//        }
-//    });
 });
