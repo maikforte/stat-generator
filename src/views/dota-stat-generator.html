@@ -41,24 +41,36 @@
 </head>
 
 <body ng-app="Dota2StatGenerator" ng-controller="Dota2StatGeneratorController" layout="column">
-    <md-content flex="no-shrink" md-scrollable-x layout="column">
-        <md-toolbar class="md-primary-hue-2">
-            <div class="md-toolbar-tools">
-                <div>
-                    DotA 2 Stats Generator
-                </div>
+    <md-toolbar class="md-primary-hue-2">
+        <div class="md-toolbar-tools">
+            <div>
+                DotA 2 Stats Generator
             </div>
-        </md-toolbar>
-        <div flex ng-init="init()" layout="column" layout-padding>
-            <div layout="column" layout-align="center center" layout-padding>
-                <img ng-src="{{generatedStats}}" ng-if="!isLoading">
-                <div ng-if="isLoading" flex layout="row" layout-sm="column" layout-align="space-around" layout-margin>
+        </div>
+    </md-toolbar>
+    <md-content flex ng-init="init()" layout="column">
+        <div flex="noshrink" layout="column" layout-padding>
+            <div layout="column" layout-align="center center">
+                <div layout="column">
+                    <span class="md-title">How to:</span>
+                    <ul class="md-body-1">
+                        <li>Set your DotA2 profile to public via DotA2 'Settings > Options'<br>
+                            <img height="50" ng-src="/assets/images/expose-public.png">
+                        </li>
+                        <li>Click 'Continue with Steam'</li>
+                        <li>Sit back while your "PRO" stats is being generated</li>
+                        <li>Get disappointed</li>
+                        <li>Share with your friends for them to have enough reason not to play with you... Forever.</li>
+                    </ul>
+                    <img ng-src="{{generatedStats}}" ng-if="!isLoading" md-whiteframe="7" layout-margin>
+                </div>
+                <div ng-if="isLoading" flex layout="row" layout-sm="column" layout-align="space-around">
                     <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
                 </div>
-                <div class="steam-button" layout-padding layout-margin ng-click="loginSteam()">
-                    Login via Steam
+                <div class="steam-button" layout-padding ng-click="loginSteam()" layout-margin>
+                    Continue with Steam
                 </div>
-                <div class="share-button" ng-click="share()" layout-margin layout-padding layout-align="center center" layout="row">
+                <div class="share-button" ng-click="share()" layout-padding layout-align="center center" layout="row" layout-margin>
                     Share to Facebook
                 </div>
             </div>
