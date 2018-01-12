@@ -60,10 +60,10 @@
                         <li>Click 'Continue with Steam'</li>
                         <li>Sit back while your "PRO" stats is being generated</li>
                         <li>Get disappointed</li>
-                        <li>Share with your friends for them to have enough reason not to play with you... Forever.</li>
+                        <li>Share with your friends to give them enough reason not to play with you... Forever.</li>
                     </ul>
-                    <img ng-src="{{generatedStats}}" ng-if="!isLoading" md-whiteframe="7" layout-margin>
                 </div>
+                <img ng-src="{{generatedStats}}" ng-if="!isLoading" md-whiteframe="7">
                 <div ng-if="isLoading" flex layout="row" layout-sm="column" layout-align="space-around">
                     <md-progress-circular class="md-hue-1" md-diameter="40px" md-mode="indeterminate"></md-progress-circular>
                 </div>
