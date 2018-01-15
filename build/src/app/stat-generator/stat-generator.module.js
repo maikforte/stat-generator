@@ -1,1 +1,0 @@
-angular.module("Dota2StatGenerator",["ngMaterial"]).config(["$locationProvider",function(o){o.html5Mode(!0)}]);
