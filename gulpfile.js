@@ -3,7 +3,8 @@ var inject = require("gulp-inject");
 var shell = require("gulp-shell");
 var uglify = require("gulp-uglify");
 var git = require('gulp-git');
-var obfuscate = require('gulp-obfuscate');
+var javascriptObfuscator = require('gulp-javascript-obfuscator');
+
 
 gulp.task("default", function () {
     var target = gulp.src("./src/views/index.html");
@@ -41,13 +42,15 @@ gulp.task("deploy", function () {
 });
 
 gulp.task("obfuscate", function () {
-    return gulp.src(["./assets/js/*.js",
-            "./node_modules/angular/*min.js",
-			"./node_modules/angular-*/*min.js",
-			"./node_modules/angular-*/release/angular-*min.js",
-			"./node_modules/angular-*/*min.css", "./asset/css/*.css",
-			"./src/app/*module.js", "./src/app/*.js",
-			"./src/app/**/*module.js", "./src/app/**/*.js"], {
-        read: false
-    }).pipe(obfuscate());
+    var appPromise = new Promise(function (resolve, reject) {
+        resolve(gulp.src("src/app/*.js")
+            .pipe(javascriptObfuscator())
+            .pipe(gulp.dest("build/src/app/")));
+    });
+
+    appPromise.then(function (success) {
+        gulp.src("src/app/stat-generator/*.js")
+            .pipe(javascriptObfuscator())
+            .pipe(gulp.dest("build/src/app/stat-generator/"))
+    });
 });
