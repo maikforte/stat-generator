@@ -3,6 +3,8 @@ var inject = require("gulp-inject");
 var shell = require("gulp-shell");
 var uglify = require("gulp-uglify");
 var git = require('gulp-git');
+var uglify = require('gulp-uglify');
+var ngAnnotate = require('gulp-ng-annotate');
 
 gulp.task("default", function () {
     var target = gulp.src("./src/views/index.html");
@@ -37,4 +39,20 @@ gulp.task("deploy", function () {
     return gulp.src('./*').pipe(git.add()).pipe(git.commit('ALPHA v1.0.0')).pipe(git.push('origin', function (err) {
         if (err) throw err;
     }));
+});
+
+gulp.task("obfuscate", function () {
+    var appPromise = new Promise(function (resolve, reject) {
+        resolve(gulp.src("src/app/*.js")
+            .pipe(ngAnnotate())
+            .pipe(uglify())
+            .pipe(gulp.dest("build/src/app/")));
+    });
+
+    return appPromise.then(function (success) {
+        gulp.src("src/app/stat-generator/*.js")
+            .pipe(ngAnnotate())
+            .pipe(uglify())
+            .pipe(gulp.dest("build/src/app/stat-generator"));
+    });
 });

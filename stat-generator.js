@@ -5,7 +5,12 @@ const port = process.env.PORT || 3000;
 const middlewareRouter = require("./src/server/router/middleware-router.router.js");
 const controllerRouter = require("./src/server/router/controller-router.router.js");
 
-app.use(express.static(__dirname));
+app.use("/build", express.static(__dirname + "/build"));
+app.use("/node_modules", express.static(__dirname + "/node_modules"));
+app.use("/assets", express.static(__dirname + "/assets"));
+app.use("/generated-stats", express.static(__dirname + "/generated-stats"));
+app.use("/src/views", express.static(__dirname + "/src/views"));
+
 app.use(middlewareRouter.steamAuth.passport.initialize());
 app.use(bodyParser.json());
 
@@ -22,7 +27,7 @@ app.get("/api/steam/login", middlewareRouter.steamAuth.authenticate("steam"), co
 app.get("/api/steam/login/return", middlewareRouter.steamAuth.authenticate("steam"), controllerRouter.steamLoginController.steamLoginRedirect);
 
 // Web Pages
-app.get("/*", function (request, response) {
+app.get("*", function (request, response) {
     response.status(200);
     response.sendFile(__dirname + "/src/views/dota-stat-generator.html");
 });
