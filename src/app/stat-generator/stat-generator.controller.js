@@ -25,11 +25,10 @@ angular.module("Dota2StatGenerator")
 
         $scope.init = function () {
             $scope.showShareButton = true;
-            $scope.generatedStats = "http://localhost:3000/generated-stats/placeholder.png";
-            //            $scope.generatedStats = "http://www.vertigoo.org/generated-stats/placeholder.png";
+            //            $scope.generatedStats = "http://localhost:3000/generated-stats/placeholder.png";
+            $scope.generatedStats = "http://www.vertigoo.org/generated-stats/placeholder.png";
             var steamId = $location.search().id;
             if (steamId) {
-                console.log(steamId);
                 $scope.generateCanvas(steamId);
             }
         };
@@ -42,7 +41,6 @@ angular.module("Dota2StatGenerator")
             $scope.isLoading = true;
             Dota2StatGeneratorService.getGeneratedStats(steamId).then(function (successCallback) {
                 $scope.generatedStats = successCallback.data;
-                console.log(successCallback);
                 $scope.isLoading = false;
             }, function (errorCallback) {
                 $scope.isLoading = false;
