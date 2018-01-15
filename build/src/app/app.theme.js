@@ -1,0 +1,1 @@
+angular.module("App").config(["$mdThemingProvider",function(e){e.theme("default").primaryPalette("blue-grey").accentPalette("grey")}]);

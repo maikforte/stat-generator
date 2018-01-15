@@ -1,0 +1,1 @@
+angular.module("App").config(["$locationProvider",function(t){t.html5Mode(!0)}]).config(["$stateProvider","$urlRouterProvider",function(t,r){r.otherwise("/stat-generator"),t.state({name:"statGenerator",url:"/stat-generator",templateUrl:"./src/views/stat-generator.html",controller:"Dota2StatGeneratorController"})}]);
