@@ -1,1 +1,0 @@
-angular.module("Dota2StatGenerator").config(["$mdThemingProvider",function(e){e.theme("default").primaryPalette("blue-grey").accentPalette("grey")}]);

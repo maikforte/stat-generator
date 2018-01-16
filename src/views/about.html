@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base href="/">
+    <title>Vertigoo - About</title>
+    <meta name="description" content="Generate, Share and Brag your all-time DotA 2 Statistics and show them who's the boss">
+    <meta name="viewport" content="width=device-width,
+                        initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/assets/css/roboto.css">
+    <link rel="stylesheet" href="/node_modules/angular-material/angular-material.min.css">
+</head>
+
+<body ng-app="About" layout="column" ng-cloak>
+    <md-content flex="noshrink" flex-gt-sm layout="column">
+        <div layout="column" layout-gt-sm="row">
+            <div hide show-gt-sm>
+                <img ng-src="/assets/images/devboy.png" style="height: 100%;">
+            </div>
+            <div layout="column" layout-padding>
+                <div layout="row">
+                    <h1>
+                        <span>DEV</span>
+                        <span style="color: rgba(0,0,0,.5)">BOY</span>
+                    </h1>
+                </div>
+                <div layout="column">
+                    <span>
+                        Is your typical fat gamer and, a developer who creates random questionable things.
+                    </span>
+                    <span style="margin-top: 20px;">
+                        Is a curious person who questions life. Things like what happened to the Old Zealand, Why do your feet smells but your nose runs. 
+                    </span>
+                    <span style="margin-top: 20px;">
+                        90% of his clothes are fit.
+                    </span>
+                    <span style="margin-top: 20px;">
+                        He loves coffee, cocoa, and Coke.
+                    </span>
+                    <span style="margin-top: 20px;">
+                        He doesn't care about pineapple over pizza.
+                    </span>
+                    <span style="margin-top: 20px;">
+                        You will usually hear him saying "Oh Boy!"
+                    </span>
+                </div>
+            </div>
+            <div hide-gt-sm>
+                <img ng-src="/assets/images/devboy.png" height="300">
+            </div>
+        </div>
+    </md-content>
+    <vertigoo-footer></vertigoo-footer>
+</body>
+
+<script src="/node_modules/angular/angular.min.js "></script>
+<script src="/node_modules/angular-animate/angular-animate.min.js "></script>
+<script src="/node_modules/angular-aria/angular-aria.min.js "></script>
+<script src="/node_modules/angular-material/angular-material.min.js "></script>
+<script src="/node_modules/angular-messages/angular-messages.min.js "></script>
+<script src="/src/app/footer/footer.module.js"></script>
+
+<script type="text/javascript">
+    angular.module("About", ["ngMaterial", "Footer"]);
+
+</script>
+
+</html>
