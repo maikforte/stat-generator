@@ -22,9 +22,9 @@ app.listen(port, function () {
 app.post("/api/stats/generate-image", middlewareRouter.genericAuth.authenticate, controllerRouter.dotaStatController.generateImage);
 
 // GET Requests
-app.get("/api/steam/login", middlewareRouter.genericAuth.authenticate, middlewareRouter.steamAuth.authenticate("steam"), controllerRouter.steamLoginController.steamLogin);
+app.get("/api/steam/login", middlewareRouter.steamAuth.authenticate("steam"), controllerRouter.steamLoginController.steamLogin);
 
-app.get("/api/steam/login/return", middlewareRouter.genericAuth.authenticate, middlewareRouter.steamAuth.authenticate("steam"), controllerRouter.steamLoginController.steamLoginRedirect);
+app.get("/api/steam/login/return", middlewareRouter.steamAuth.authenticate("steam"), controllerRouter.steamLoginController.steamLoginRedirect);
 
 // Web Pages
 app.get("*", function (request, response) {
