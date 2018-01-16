@@ -1,0 +1,23 @@
+<div md-colors="{background: 'primary'}" layout="column">
+    <div layout-padding layout="row">
+        <i class="material-icons" style="font-size: 14px;">copyright</i>
+        <span style="font-size: 14px;">2018, Vertigoo</span>
+        <span flex></span>
+        <div class="link" ng-click="redirect('/about')">About</div>
+        <div class="link" ng-click="redirect('/terms-and-condition')">Terms and Condition</div>
+        <div class="link" ng-click="redirect('/privacy-policy')">Privacy Policy</div>
+    </div>
+</div>
+
+<style type="text/css">
+    .link {
+        text-decoration: underline;
+        cursor: pointer;
+        color: rgba(0, 0, 0, .5);
+    }
+    
+    .link:hover {
+        color: rgba(255, 255, 255, .8);
+    }
+
+</style>

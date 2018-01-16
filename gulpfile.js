@@ -46,14 +46,28 @@ gulp.task("obfuscate", function () {
         resolve(gulp.src("src/app/*.js")
             .pipe(ngAnnotate())
             .pipe(uglify())
-            .pipe(gulp.dest("build/src/app/")));
+            .pipe(gulp.dest("build/app/")));
+    });
+
+    var footerPromise = new Promise(function (resolve, reject) {
+        resolve(gulp.src("src/app/*.js")
+            .pipe(ngAnnotate())
+            .pipe(uglify())
+            .pipe(gulp.dest("build/app/")));
     });
 
     return appPromise.then(function (success) {
         gulp.src("src/app/stat-generator/*.js")
             .pipe(ngAnnotate())
             .pipe(uglify())
-            .pipe(gulp.dest("build/src/app/stat-generator"));
+            .pipe(gulp.dest("build/app/stat-generator"));
+        return footerPromise;
+    }).then(function (success) {
+        gulp.src("src/app/footer/*.js")
+            .pipe(ngAnnotate())
+            .pipe(uglify())
+            .pipe(gulp.dest("build/app/footer"));
+        return footerPromise;
     });
 });
 
@@ -62,14 +76,21 @@ gulp.task("start", function () {
         resolve(gulp.src("src/app/*.js")
             .pipe(ngAnnotate())
             .pipe(uglify())
-            .pipe(gulp.dest("build/src/app/")));
+            .pipe(gulp.dest("build/app/")));
     });
 
     return appPromise.then(function (success) {
         gulp.src("src/app/stat-generator/*.js")
             .pipe(ngAnnotate())
             .pipe(uglify())
-            .pipe(gulp.dest("build/src/app/stat-generator"))
+            .pipe(gulp.dest("build/app/stat-generator"));
+        return footerPromise;
+    }).then(function (success) {
+        gulp.src("src/app/footer/*.js")
+            .pipe(ngAnnotate())
+            .pipe(uglify())
+            .pipe(gulp.dest("build/app/footer"))
             .pipe(shell("npm start"));
+        return footerPromise;
     });
 });
