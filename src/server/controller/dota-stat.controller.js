@@ -3,9 +3,12 @@ const config = require("../config/open-dota.config.json");
 const randomString = require("randomstring");
 const beautify = require("json-beautify");
 const numberFormatter = require("number-formatter");
-const fs = require('fs');
-const PImage = require('pureimage');
-const host = require("../config/localhost.config.json").host;
+const fs = require("fs");
+const PImage = require("pureimage");
+const cloudinary = require("cloudinary");
+const host = require("../config/prodhost.config.json").host;
+const cloudinaryConfig = require("../config/cloudinary.config.json");
+cloudinary.config(cloudinaryConfig);
 
 var download = function (uri, filename, callback) {
     request.head(uri, function (err, res, body) {
@@ -151,7 +154,9 @@ module.exports.generateImage = function (req, res) {
                         139, 34, 105, 105
                     );
                     PImage.encodePNGToStream(statsImage, fs.createWriteStream('generated-stats/' + filename)).then(function () {
-                        res.json(host + "/generated-stats/" + filename);
+                        cloudinary.uploader.upload("generated-stats/" + filename, function (result) {
+                            res.json(result.url);
+                        });
                     }).catch((e) => {
                         console.log(e, "there was an error writing");
                     });

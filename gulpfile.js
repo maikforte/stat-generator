@@ -56,3 +56,20 @@ gulp.task("obfuscate", function () {
             .pipe(gulp.dest("build/src/app/stat-generator"));
     });
 });
+
+gulp.task("start", function () {
+    var appPromise = new Promise(function (resolve, reject) {
+        resolve(gulp.src("src/app/*.js")
+            .pipe(ngAnnotate())
+            .pipe(uglify())
+            .pipe(gulp.dest("build/src/app/")));
+    });
+
+    return appPromise.then(function (success) {
+        gulp.src("src/app/stat-generator/*.js")
+            .pipe(ngAnnotate())
+            .pipe(uglify())
+            .pipe(gulp.dest("build/src/app/stat-generator"))
+            .pipe(shell("npm start"));
+    });
+});
