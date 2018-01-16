@@ -1,7 +1,7 @@
 var passport = require("passport");
 var SteamID = require('steamid');
 var SteamStrategy = require("passport-steam").Strategy;
-var host = require("../config/localhost.config.json").host;
+var host = require("../config/prodhost.config.json").host;
 var steamApiKey = '4FBE8503C9D19604FBD9A4A4BEBB2B23';
 
 passport.serializeUser(function (user, done) {
