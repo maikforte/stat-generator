@@ -41,7 +41,10 @@ var fetchStats = function (account_id) {
     };
     const dotaStatModel = require("../router/model-router.router.js").dotaStatModel;
     return new Promise(function (resolve, reject) {
-        dotaStatModel.getPlayerInfo(account_id).then(function (successCallback) {
+        dotaStatModel.refreshPlayerInfo(account_id).then(function (successCallback) {
+            console.log(successCallback);
+            return dotaStatModel.getPlayerInfo(account_id);
+        }).then(function (successCallback) {
             data.player_info = JSON.parse(successCallback);
             var imageFilename = data.player_info.profile.avatarfull.substring(data.player_info.profile.avatarfull.lastIndexOf('/') + 1, data.player_info.profile.avatarfull.length);
             data.player_info.localImage = imageFilename;

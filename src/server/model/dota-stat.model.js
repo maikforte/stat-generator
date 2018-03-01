@@ -1,6 +1,20 @@
 var request = require("request");
 var config = require("../config/open-dota.config.json");
 
+module.exports.refreshPlayerInfo = function (account_id) {
+    return new Promise(function (resolve, reject) {
+        request({
+            "method": "POST",
+            "url": config.BASE_URL + "/players/" + account_id + "/refresh"
+        }, function (error, response, body) {
+            if (error) {
+                reject(error);
+            }
+            resolve(body);
+        });
+    });
+};
+
 module.exports.getPlayerInfo = function (account_id) {
     return new Promise(function (resolve, reject) {
         request({
