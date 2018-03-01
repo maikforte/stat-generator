@@ -10,7 +10,7 @@ app.use("/node_modules", express.static(__dirname + "/node_modules"));
 app.use("/assets", express.static(__dirname + "/assets"));
 app.use("/generated-stats", express.static(__dirname + "/generated-stats"));
 app.use("/src/views", express.static(__dirname + "/src/views"));
-//app.use("/src/app", express.static(__dirname + "/src/app"));
+app.use("/src/app", express.static(__dirname + "/src/app"));
 
 //app.use(express.static(__dirname));
 
